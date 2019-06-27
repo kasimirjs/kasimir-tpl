@@ -65,8 +65,6 @@ class KasimirRenderer {
     _render(domnode, path, depth) {
         let out = "";
 
-
-        console.log(domnode);
         if (domnode instanceof HTMLElement) {
 
             let logic = this._getLogic(domnode);
@@ -80,6 +78,11 @@ class KasimirRenderer {
             } else {
                 out += "\n_e[" + depth + "] = document.createElement('" + domnode.tagName + "');";
 
+                for (let attr of domnode.attributes) {
+                    if (attr.name.startsWith(this._attrPrefix))
+                        continue;
+                    out += "\n_e[" + depth + "].setAttribute('" + attr.name + "', `" + attr.value + "`);";
+                }
                 for (let handlerName in logic.handler) {
                     out += "\n_e[" + depth + "]." + handlerName + " = function(e){ " + logic.handler[handlerName] + " };";
                 }

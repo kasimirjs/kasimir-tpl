@@ -15,7 +15,7 @@ class KasimirTemplate {
      * @param domSelector {string|HTMLElement}
      * @return KasimirTemplate
      */
-    bind(domSelector) {
+    renderIn(domSelector) {
         let node = null;
         if (typeof domSelector === "string") {
             node = document.querySelector(domSelector);

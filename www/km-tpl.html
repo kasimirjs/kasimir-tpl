@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>km-tpl htmlElements</h1>
+
+    <km-tpl id="tpl1" observe="data">
+        <template>
+            <div *for="let data of scope.list">
+                Hello ${data} <button onclick="console.log(data)">View</button>
+                <b *if="data == 'Index 6'">This is the 6</b>
+            </div>
+        </template>
+    </km-tpl>
+
+    <km-tpl observe="data">
+        <template>
+            <input type="text" value="${scope.name}">
+        </template>
+    </km-tpl>
+
+    <script>
+
+        var data = {
+            list: [],
+            name: "Matthias"
+        };
+
+        let i = 0;
+        function rise() {
+            data.list.push("Index " + i++);
+        }
+
+
+    </script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+    <button onclick="rise();">Render</button>
+
+</body>
+</html>

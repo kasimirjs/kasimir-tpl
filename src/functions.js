@@ -19,3 +19,4 @@ function kasimir_tpl(templateSelector) {
     let renderer = new KasimirRenderer();
     return renderer.render(tplElem);
 }
+

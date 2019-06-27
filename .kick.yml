@@ -8,3 +8,7 @@ command:
   build:
     - "sudo npm install gulp-cli -g"
     - "npm install -D --no-bin-links"
+    - "gulp build"
+
+  dev:
+    - "D:gulp watch"

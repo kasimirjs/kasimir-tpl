@@ -22,7 +22,7 @@
 
     <script>
 
-        let data = {
+        const data = {
             list: [],
             name: "Matthias"
         };
@@ -32,7 +32,7 @@
                 data.list.push("Index " + i);
             }
         }
-        let tpl1 = kasimir_tpl("#tpl1").bind("#target").observe(data);
+        let tpl1 = kasimir_tpl("#tpl1").renderIn("#target").observe(data);
 
     </script>
     <button onclick="rise();">Render</button>
