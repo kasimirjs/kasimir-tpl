@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+
+
+    <template id="tpl1">
+        <div *for="let data of scope.list">
+            Hello ${data} <button onclick="console.log(data)">View</button>
+            <b *if="data == 'Index 6'">This is the 6</b>
+        </div>
+
+    </template>
+
+    <div id="target">
+        Output goes here
+    </div>
+
+    <script>
+
+        let data = {
+            list: [],
+            name: "Matthias"
+        };
+
+        function rise() {
+            for (let i = 0; i < 100; i++) {
+                data.list.push("Index " + i);
+            }
+        }
+        let tpl1 = kasimir_tpl("#tpl1").bind("#target").observe(data);
+
+    </script>
+    <button onclick="rise();">Render</button>
+
+</body>
+</html>

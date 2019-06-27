@@ -1,0 +1,10 @@
+# Kickstart container config file - see https://gitub.com/infracamp/kickstart
+# Run ./kickstart.sh to start a development-container for this project
+version: 1
+from: "infracamp/kickstart-flavor-gaia:testing"
+
+
+command:
+  build:
+    - "sudo npm install gulp-cli -g"
+    - "npm install -D --no-bin-links"
