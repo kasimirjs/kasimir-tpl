@@ -76,8 +76,11 @@ class KasimirRenderer {
             if (domnode.tagName === "SCRIPT") {
                 out += "\neval(`" + domnode.textContent + "`);"
             } else {
-                out += "\n_e[" + depth + "] = document.createElement('" + domnode.tagName + "');";
-
+                if (domnode.hasAttribute("is")) {
+                    out += "\n_e[" + depth + "] = document.createElement('" + domnode.tagName + "', {is: '" + domnode.getAttribute("is") + "'});";
+                } else {
+                    out += "\n_e[" + depth + "] = document.createElement('" + domnode.tagName + "');";
+                }
                 for (let attr of domnode.attributes) {
                     if (attr.name.startsWith(this._attrPrefix))
                         continue;

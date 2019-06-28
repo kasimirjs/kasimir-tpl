@@ -9,6 +9,7 @@ class KmTplElem extends HTMLElement {
         this._attrs = {
             bind: null,
             observe: null,
+            scope: null
         };
         this._config = {
         };
@@ -21,14 +22,15 @@ class KmTplElem extends HTMLElement {
     }
 
 
-    static get observedAttributes() { return ["bind", "observe"]; }
+    static get observedAttributes() { return ["bind", "observe", "scope"]; }
 
     attributeChangedCallback(name, oldValue, newValue) {
         this._attrs[name] = newValue;
     }
 
     connectedCallback() {
-        window.addEventListener("load", () => {
+
+        try {
             console.log("load", window["data"]);
             let template = this.querySelector("template");
             if (template === null) {
@@ -40,17 +42,25 @@ class KmTplElem extends HTMLElement {
             this.removeChild(template);
             this.tpl.renderIn(this);
 
+            if (this._attrs.scope !== null) {
+                var scope = null;
+                eval("scope = " + this._attrs.scope);
+            }
             if (this._attrs.bind !== null) {
-                this.tpl.bind(window[this._attrs.bind]);
+                this.tpl.bind(eval(this._attrs.bind));
             }
             if (this._attrs.observe) {
-                let observed = window[this._attrs.observe];
+                let observed = eval(this._attrs.observe);
                 console.log(observed);
                 if (typeof observed !== "object")
-                    throw "observed variable window['" + this._attrs.observe + "'] is typeof " + (typeof observed) + " but object required";
+                    throw "observed variable '" + this._attrs.observe + "' is typeof " + (typeof observed) + " but object required";
                 this.tpl.observe(observed);
             }
-        });
+        } catch (e) {
+            console.error(e + " in element ", this);
+            throw e;
+        }
+
     }
 
     disconnectCallback() {

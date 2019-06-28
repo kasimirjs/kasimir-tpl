@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>input</h1>
+    <km-tpl scope="{len: 1, data: []}" observe="scope">
+
+        <template>
+            <div *for="let i =0; i<scope.len; i++">Page ${i}
+                <input is="km-input" type="text" bind="data.list[${i}]"><button onclick="scope.len--">-</button>
+            </div>
+            <button onclick="scope.len++">+</button>
+        </template>
+    </km-tpl>
+    <input is="km-input" type="text" bind="data.name">
+
+    <script>
+
+        var data = {
+            list: [],
+            name: "Matthias",
+            page: 1
+        };
+
+        let i = 0;
+        function rise() {
+            data.list.push("I`n\"d<hk>e'x " + i++);
+        }
+
+
+    </script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+
+
+</body>
+</html>
