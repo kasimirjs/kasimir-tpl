@@ -24,33 +24,46 @@ class Renderer {
         let nodeOrig = null;
         console.log("run", node);
 
-        for (let i = 0; i < this.directives.length; i++) {
-            let directive = this.directives[i];
-            if (directive.applies(node)) {
-                nodeOrig = node;
-                node = node.cloneNode(true);
-                tpl = new directive(node);
-                curTplElem.parentTpls.push(tpl);
-                curTplElem = tpl;
-            }
+
+        if (node.hasAttribute("ngFor")) {
+            nodeOrig = node;
+            node = node.cloneNode(true);
+
+            tpl = new KT_ForDirective();
+            tpl.state.ngFor = node.getAttribute("ngFor");
+
+            let elem = new KT_ForElement();
+            elem.appendChild(node);
+            elem.state.origNode = node;
+
+            tpl.state.origNode = elem;
+
+            curTplElem.state.parentTpls.push(tpl);
+            curTplElem = elem;
         }
 
 
         for (let i=0; i < node.children.length; i++) {
             this._parse(node.children.item(i), curTplElem);
         }
+        if (tpl === null) {
 
-        if (tpl !== null)
+        } else {
             nodeOrig.replaceWith(tpl);
+        }
+
+
+
     }
 
     /**
      *
      * @param templateNode
-     * @return {TplElem}
+     * @return {KT_Template}
      */
     getTemplate(templateNode) {
-        let tpl = new KT_Template(templateNode);
+        let tpl = new KT_Template();
+        tpl.origNode = templateNode;
         this._parse(templateNode, tpl);
         return tpl;
     }
