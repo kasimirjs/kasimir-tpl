@@ -46,6 +46,10 @@ class KT_ForDirective extends KT_Renderable {
             scope["idx"] = i;
             this.state.parentTpls[i].render(scope);
         }
+        for (let i = this.state.parentTpls.length; i > val.length; i--) {
+            let c = this.state.parentTpls.pop();
+            this.removeChild(c);
+        }
 
     }
 
