@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+
+    <div id="tpl">
+        <div ng-for="value in this.blah">
+            <div>Repeat this</div>
+            <div ng-for=""><div>Rep1</div></div>
+            <div ng-for="">Rep2</div>
+        </div>
+    </div>
+
+    <script>
+        let elem = document.getElementById("test");
+
+        let parser = new Renderer();
+        let tpl = parser.getTemplate(document.getElementById("tpl"))
+
+
+
+    </script>
+
+    <button onclick="tpl.render()">press me</button>
+</body>
+</html>

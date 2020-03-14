@@ -5,7 +5,7 @@
  * @param templateSelector
  * @return {KasimirTemplate}
  */
-function kasimir_tpl(templateSelector) {
+export function kasimir_tpl(templateSelector) {
     let tplElem = null;
     if (typeof templateSelector === "string") {
         tplElem = document.querySelector(templateSelector);
