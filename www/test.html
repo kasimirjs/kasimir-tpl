@@ -7,21 +7,25 @@
 <body>
 <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
 
-    <div id="tpl">
+<template id="tpl">
+    <div>
         <div>Hello</div>
         <div ngFor="let value of arr">
             <div>Repeat this</div>
             <div ngFor="let val of value">
                 <div>bbb</div>
+                <script>
+                    console.log("bbb", scope);
+                </script>
             </div>
         </div>
     </div>
-
+</template>
     <script>
         let elem = document.getElementById("test");
 
         let parser = new Renderer();
-        let tpl = parser.getTemplate(document.getElementById("tpl"))
+        let tpl = parser.getTemplate(document.getElementById("tpl").)
 
         var scope = {
             arr: []
