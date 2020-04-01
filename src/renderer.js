@@ -33,7 +33,7 @@ class Renderer {
             tpl.state.ngFor = node.getAttribute("ngFor");
 
             let elem = new KT_ForElement();
-            elem.appendChild(node);
+            //elem.appendChild(node);
             elem.state.origNode = node;
 
             tpl.state.origNode = elem;
@@ -50,10 +50,8 @@ class Renderer {
 
         } else {
             nodeOrig.replaceWith(tpl);
+
         }
-
-
-
     }
 
     /**
@@ -63,8 +61,22 @@ class Renderer {
      */
     getTemplate(templateNode) {
         let tpl = new KT_Template();
-        tpl.origNode = templateNode;
-        this._parse(templateNode, tpl);
+
+        if (templateNode instanceof HTMLTemplateElement) {
+            let mainNode = templateNode.content.children.item(0);
+            console.log("Template start", mainNode);
+
+            templateNode.parentElement.ownerDocument.adoptNode(mainNode);
+
+            tpl.state.origNode = mainNode.cloneNode(true);
+            templateNode.parentElement.appendChild(tpl);
+            this._parse(mainNode, tpl);
+
+        } else {
+            tpl.state.origNode = templateNode;
+            this._parse(templateNode, tpl);
+        }
+
         return tpl;
     }
 }

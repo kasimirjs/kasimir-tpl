@@ -1,16 +1,12 @@
 
 class KT_Renderable extends HTMLElement
 {
-
-
     constructor() {
         super();
 
         this.state = {
             parentTpls: []
-
         };
-
     }
 
 
@@ -19,6 +15,13 @@ class KT_Renderable extends HTMLElement
         let x = super.cloneNode(deep);
         x.state = state;
         return x;
+    }
+
+    dump() {
+        let ret = {sub: [], elem: this};
+        for (let cur of this.state.parentTpls)
+            ret.sub.push(cur.dump());
+        return ret;
     }
 
     render(scope) {

@@ -8,11 +8,12 @@ class KT_ForElement extends KT_Renderable {
 
     render(scope) {
         //if (! this.isRendered) {
-        //    this.appendChild(this.state.origNode.cloneNode(true));
-        //    this.isRendered = true;
+
+            this.appendChild(this.state.origNode.cloneNode(true));
+            this.isRendered = true;
         //}
         super.render(scope);
-
+        console.log("Render forelement", this.outerHTML, "in scope", scope)
     }
 
 }

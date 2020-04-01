@@ -30,26 +30,33 @@ class KT_ForDirective extends KT_Renderable {
         let target = result[1];
 
         let val = scope[selector];
-        console.log("render for", selector, scope, val);
+
+        console.log(scope, val);
+
         // Create new elements
         for (let i = this.state.parentTpls.length; i < val.length; i++) {
             let e = this.state.origNode.cloneNode(true);
-
+            // this.ownerDocument.adoptNode(e);
             this.state.parentTpls.push(e);
-            this.appendChild(e);
 
-            console.log("append", e, this.state.parentTpls);
+
+            console.log("append", e, "to", this.outerHTML);
+            this.append(e);
 
         }
+
         for (let i = 0; i < val.length; i++) {
+            console.log ("Refresh", i, `with scope[${target}] = '${val[i]}'`);
             scope[target] = val[i];
             scope["idx"] = i;
             this.state.parentTpls[i].render(scope);
         }
-        for (let i = this.state.parentTpls.length; i > val.length; i--) {
-            let c = this.state.parentTpls.pop();
-            this.removeChild(c);
-        }
+
+
+        //for (let i = this.state.parentTpls.length; i > val.length; i--) {
+        //    let c = this.state.parentTpls.pop();
+        //    this.removeChild(c);
+        //}
 
     }
 
