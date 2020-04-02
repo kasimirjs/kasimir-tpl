@@ -15,7 +15,7 @@ class KT_ForDirective extends KT_Renderable {
         console.log("onKtInit()", this.outerHTML)
         let ktBlock = this.firstElementChild;
 
-        if ( ! ktBlock instanceof KT_ForElement || typeof ktBlock !== "object") {
+        if ( ! ktBlock instanceof KtBlock || typeof ktBlock !== "object") {
             console.error("Element child of x-kt-for must be x-kt-block in", this.outerHTML)
             throw "Element chilf of x-kt-for must be x-kt-block."
         }
@@ -65,7 +65,7 @@ class KT_ForDirective extends KT_Renderable {
             scope["idx"] = i;
             let curNode = this.children.item(i);
             //console.log ("node is", curNode, this.children);
-            this.renderRecursive(curNode, scope);
+            curNode.render(scope);
         }
 
 

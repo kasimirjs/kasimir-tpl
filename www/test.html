@@ -12,7 +12,7 @@
 
     </div>
     </template>
-<button onclick="for(let i =0; i<100; i++)scope.arr.push([{},{},{}]); elem.render(scope)">press me</button>
+<button onclick="for(let i =0; i<1; i++)scope.arr.push([{},{},{}]); elem.render(scope)">press me</button>
 <button onclick="scope.arr.length=0; elem.render(scope)">press minus</button>
     <x-kt-for for="let val of arr" id="loop1">
         <x-kt-block>
@@ -22,6 +22,7 @@
                 <x-kt-block>
                 <div>Buh <x-kt-val select="idx"></x-kt-val></div>
                     Geh doch
+                    <div [class]="{'wurst': scope.idx === 0, 'muh': false}">hello</div>
                     <x-kt-if stmt="scope.idx === 1">
                         <x-kt-block>
                             Blah!
