@@ -2,64 +2,81 @@ class KT_ForDirective extends KT_Renderable {
 
     constructor() {
         super();
+        // console.log("construct", this.outerHTML);
+        this.state.len = 0;
     }
 
-    static applies(node) {
-        return node.hasAttribute("ngFor");
+
+    onKtInit() {
+
     }
 
-    /**
-     *
-     * @param {this} instane
-     * @param {HTMLElement} node
-     */
-    static apply (instane, node) {
-        let stmt = node.getAttribute("ngFor");
+    onAfterKtInit() {
+        console.log("onKtInit()", this.outerHTML)
+        let ktBlock = this.firstElementChild;
 
+        if ( ! ktBlock instanceof KT_ForElement || typeof ktBlock !== "object") {
+            console.error("Element child of x-kt-for must be x-kt-block in", this.outerHTML)
+            throw "Element chilf of x-kt-for must be x-kt-block."
+        }
 
+        if ( ! this.hasAttribute("kt-id")) {
+            this.setAttribute("kt-id", KT_DATA.length)
+        }
+        KT_DATA.push({origNode: ktBlock});
 
-        console.log(result);
+        for(let i = 0; i < this.children.length; i++)
+            this.removeChild(this.children.item(0));
+    }
 
+    connectedCallback() {
+    }
+
+    disconnectedCallback() {
+        console.log("disconnected", this.outerHTML);
     }
 
     render(scope) {
+        let ktId = parseInt(this.getAttribute("kt-id"));
         let result = new RegExp("let (\\w+) of ([a-zA-Z0-9_.]+)");
-        result = result.exec(this.state.ngFor);
+        result = result.exec(this.getAttribute("for"));
 
         let selector = result[2];
         let target = result[1];
 
         let val = scope[selector];
 
-        console.log(scope, val);
+        //console.log("render() scope: ", scope, "value:", val);
 
         // Create new elements
-        for (let i = this.state.parentTpls.length; i < val.length; i++) {
-            let e = this.state.origNode.cloneNode(true);
+        for (let i = this.state.len; i < val.length; i++) {
+            //console.log("append",  "to", this.outerHTML, this.state);
+            let e = KT_DATA[ktId].origNode.cloneNode(true);
             // this.ownerDocument.adoptNode(e);
-            this.state.parentTpls.push(e);
 
-
-            console.log("append", e, "to", this.outerHTML);
             this.append(e);
-
+            this.state.len++;
         }
+
 
         for (let i = 0; i < val.length; i++) {
-            console.log ("Refresh", i, `with scope[${target}] = '${val[i]}'`);
+            //console.log ("Refresh", i, `with scope[${target}] = '${val[i]}'`);
             scope[target] = val[i];
             scope["idx"] = i;
-            this.state.parentTpls[i].render(scope);
+            let curNode = this.children.item(i);
+            //console.log ("node is", curNode, this.children);
+            this.renderRecursive(curNode, scope);
         }
 
 
-        //for (let i = this.state.parentTpls.length; i > val.length; i--) {
-        //    let c = this.state.parentTpls.pop();
-        //    this.removeChild(c);
-        //}
+        for (let i = this.state.len; i > val.length; i--) {
+            //    let c = this.state.parentTpls.pop();
+            this.removeChild(this.lastElementChild);
+            this.state.len--;
+        }
 
     }
 
 }
 
-customElements.define("x-kt-for-directive", KT_ForDirective);
+customElements.define("x-kt-for", KT_ForDirective);

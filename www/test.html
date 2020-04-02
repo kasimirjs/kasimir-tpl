@@ -9,29 +9,40 @@
 
     <template id="tpl">
     <div class="abcde">
-        <div>Hello</div>
-        <div ngFor="let value of arr">
-            <div>Repeat this</div>
-            <!--div ngFor="let val of value">
-                <div>bbb</div>
-            </div-->
-        </div>
+
     </div>
     </template>
+<button onclick="for(let i =0; i<100; i++)scope.arr.push([{},{},{}]); elem.render(scope)">press me</button>
+<button onclick="scope.arr.length=0; elem.render(scope)">press minus</button>
+    <x-kt-for for="let val of arr" id="loop1">
+        <x-kt-block>
+        <div>Hello <x-kt-val select="idx"></x-kt-val></div>
+        <div>
+            <x-kt-for for="let x of val">
+                <x-kt-block>
+                <div>Buh <x-kt-val select="idx"></x-kt-val></div>
+                    Geh doch
+                    <x-kt-if stmt="scope.idx === 1">
+                        <x-kt-block>
+                            Blah!
+                        </x-kt-block>
+                    </x-kt-if>
+                </x-kt-block>
+            </x-kt-for>
+        </div>
+        </x-kt-block>
+    </x-kt-for>
     <script>
-        let elem = document.getElementById("test");
-
-        let parser = new Renderer();
-        let tpl = parser.getTemplate(document.getElementById("tpl"));
-
+        let elem = document.getElementById("loop1");
+        elem.initRecursive();
         var scope = {
             arr: []
         }
+        elem.render(scope);
 
     </script>
 
-    <button onclick="scope.arr.push([{},{},{}]); tpl.render(scope)">press me</button>
-    <button onclick="scope.arr.shift(); tpl.render(scope)">press minus</button>
+
 
 </body>
 </html>

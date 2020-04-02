@@ -3,32 +3,48 @@ class KT_Renderable extends HTMLElement
 {
     constructor() {
         super();
-
         this.state = {
-            parentTpls: []
+            origNode: null
         };
+
     }
 
+    /**
+     *
+     * @param {HTMLElement} node
+     * @param scope
+     */
+    renderRecursive(node, scope){
+        if ( ! node.hasChildNodes())
+            return;
+        // console.log("renderRecursive", node);
+        for (let curNode of node.childNodes) {
 
-    cloneNode(deep) {
-        let state = this.state;
-        let x = super.cloneNode(deep);
-        x.state = state;
-        return x;
-    }
-
-    dump() {
-        let ret = {sub: [], elem: this};
-        for (let cur of this.state.parentTpls)
-            ret.sub.push(cur.dump());
-        return ret;
-    }
-
-    render(scope) {
-        for(let i = 0; i < this.state.parentTpls.length; i++) {
-            this.state.parentTpls[i].render(scope);
+            if (typeof curNode.render === "function") {
+                curNode.render(scope);
+                continue;
+            }
+            this.renderRecursive(curNode, scope);
         }
     }
 
+
+    initRecursive(node) {
+        if (typeof node === "undefined")
+            node = this;
+
+        if (typeof node.onKtInit === "function")
+            node.onKtInit();
+
+        for (let curNode of node.childNodes) {
+            this.initRecursive(curNode);
+        }
+
+        if (typeof node.onAfterKtInit === "function")
+            node.onAfterKtInit();
+    }
 }
+
+
+var KT_DATA = [];
 
