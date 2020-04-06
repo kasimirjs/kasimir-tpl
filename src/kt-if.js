@@ -25,8 +25,9 @@ class KtIf extends KT_Renderable {
         let stmt = this.getAttribute("stmt");
 
         let show = eval(stmt);
-
+        console.log("if eval:", stmt, "result:", show);
         if (show) {
+            console.log("show children");
             if (this.children.length === 0)
                 this.appendChild(KT_DATA[this.getAttribute("kt-id")].origNode.cloneNode(true));
 

@@ -5,16 +5,6 @@ class KtBlock extends KT_Renderable {
         this.state.elements = [];
     }
 
-    conntectedCallback() {
-
-    }
-
-    /*
-    onKtInit() {
-        this.state.ele
-    }
-*/
-
     /**
      *
      * @param {HTMLElement} elem
@@ -37,11 +27,7 @@ class KtBlock extends KT_Renderable {
             this.applyLogic(elem, scope);
             this.renderRecursive(elem, scope);
         }
-
     }
-
-
-
 }
 
 customElements.define("x-kt-block", KtBlock);

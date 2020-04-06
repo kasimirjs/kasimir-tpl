@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+<style type="text/css">
+    .box {
+        border: 3px solid red;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .wurst {
+        background-color: blue;
+    }
+
+</style>
+    <template id="tpl">
+    <div class="abcde">
+
+    </div>
+    </template>
+<button onclick="for(let i =0; i<1; i++)scope.arr.push([{},{},{}]); elem.render(scope)">press me</button>
+<button onclick="scope.arr.length=0; elem.render(scope)">press minus</button>
+    <x-kt-for for="let val of arr" id="loop1">
+        <x-kt-block>
+            <div class="box">Hello <x-kt-val select="idx"></x-kt-val></div>
+            <div class="box">
+                <x-kt-for for="let x of val">
+                    <x-kt-block>
+                    <div class="box">Buh <x-kt-val select="idx"></x-kt-val></div>
+                        Geh doch<x-kt-include src="/elem/include.html"></x-kt-include>
+                        <div [class]="{'wurst': scope.idx === 0, 'muh': false}">hello</div>
+                        <x-kt-if stmt="scope.idx === 0">
+                            <x-kt-block>
+                                <div>Blubb</div>Blah!
+
+                            </x-kt-block>
+                        </x-kt-if>
+                    </x-kt-block>
+                </x-kt-for>
+            </div>
+        </x-kt-block>
+    </x-kt-for>
+    <script>
+        let elem = document.getElementById("loop1");
+        elem.initRecursive();
+        var scope = {
+            arr: []
+        }
+        elem.render(scope);
+
+    </script>
+
+
+
+</body>
+</html>
