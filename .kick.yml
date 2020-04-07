@@ -9,7 +9,7 @@ command:
     - "ls -la"
     - "whoami"
     - "sudo npm install gulp-cli -g"
-    - "npm install -D --no-bin-links"
+    - "npm install"
     - "gulp build"
 
   dev:
