@@ -1,0 +1,11 @@
+version: "3"
+services:
+  firefox:
+    image: selenium/standalone-firefox
+    networks:
+      - kasimir-tpl
+
+
+networks:
+  kasimir-tpl:
+    external: true

@@ -12,3 +12,6 @@ command:
 
   dev:
     - "D:gulp watch"
+
+  test:
+    - "/opt/node_modules/.bin/codeceptjs run -c /opt/test/codecept.conf.js"

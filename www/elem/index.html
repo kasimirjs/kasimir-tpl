@@ -23,7 +23,7 @@
 
     </div>
     </template>
-<button onclick="for(let i =0; i<1; i++)scope.arr.push([{},{},{}]); elem.render(scope)">press me</button>
+<button id="btn1" onclick="for(let i =0; i<1; i++)scope.arr.push([{},{},{}]); elem.render(scope)">press me</button>
 <button onclick="scope.arr.length=0; elem.render(scope)">press minus</button>
     <x-kt-for for="let val of arr" id="loop1">
         <x-kt-block>

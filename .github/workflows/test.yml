@@ -1,0 +1,17 @@
+name: test-on-push
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+
+    - name: Run tests
+      run: ./kickstart.sh :test
+ 
