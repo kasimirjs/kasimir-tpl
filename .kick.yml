@@ -6,6 +6,8 @@ from: "infracamp/kickstart-flavor-gaia:testing"
 
 command:
   build:
+    - "ls -la"
+    - "whoami"
     - "sudo npm install gulp-cli -g"
     - "npm install -D --no-bin-links"
     - "gulp build"
