@@ -20,7 +20,7 @@ var KT_FN = {
      * @param {string} val
      * @param scope
      */
-    "[class]": function(elem, val, scope) {
+    "kt-classes": function(elem, val, scope) {
         "use strict";
         try {
             var classes = null;
@@ -41,14 +41,14 @@ var KT_FN = {
         }
     },
 
-    "[attr]": function (elem, val, scope) {
+    "kt-attrs": function (elem, val, scope) {
         try {
             var classes = null;
             let e = "classes = " + val;
             let ret = eval(e);
             console.log("eval", e, "ret: ", ret, "classes:", classes);
         } catch (e) {
-            throw e + " in [data] of " + elem.outerHTML;
+            throw e + " in *attrs of " + elem.outerHTML;
         }
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
