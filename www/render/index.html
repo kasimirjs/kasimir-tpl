@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+<style type="text/css">
+    .box {
+        border: 3px solid red;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .wurst {
+        background-color: blue;
+    }
+
+</style>
+    <template id="tpl">
+    <div class="abcde">
+
+    </div>
+    </template>
+<button id="btn1" onclick="for(let i =0; i<1000; i++)scope.arr.push([{},{},{}]); elem.render(scope)">press me</button>
+<button onclick="scope.arr.length=0; elem.render(scope)">press minus</button>
+
+    <div *for="let val of arr" id="loop1">
+        <div class="box">Hello {{ scope.name }}</div>
+        <div class="box">
+        </div>
+    </div>
+    <script>
+        let elem = document.getElementById("loop1");
+        elem.initRecursive();
+        var scope = {
+            arr: []
+        };
+        elem.render(scope);
+
+    </script>
+
+
+
+</body>
+</html>

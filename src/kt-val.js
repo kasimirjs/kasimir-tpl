@@ -1,15 +1,25 @@
+class KtVal extends HTMLElement {
 
 
-class KTVal extends HTMLElement {
-
-
-
-    render(scope) {
-        let select = this.getAttribute("select");
-        this.innerText = scope[select];
+    constructor() {
+        super();
+        this.elements = [];
+        this.params = {
+            "stmt": null
+        }
     }
 
+    static get observedAttributes() {
+        return ["stmt"];
+    }
 
+    attributeChangedCallback(attrName, oldVal, newVal) {
+        this.params[attrName] = newVal;
+    }
+
+    render(context) {
+        this.innerText = JSON.stringify(eval(this.params.stmt));
+    }
 }
 
-customElements.define("x-kt-val", KTVal);
+customElements.define("kt-val", KtVal);
