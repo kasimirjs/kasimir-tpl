@@ -20,7 +20,7 @@
 
 </style>
 
-<button id="btn1" onclick="for(let i=0; i<100; i++)context.rows.push(['a', 'b' + context.rows.length]);elem.render(context)">+</button>
+<button id="btn1" onclick="for(let i=0; i<5; i++)context.rows.push(['a', 'b' +i]);elem.render(context)">+</button>
 <button onclick="context.rows.pop(); elem.render(context)">-</button>
 
 <kt-tpl id="rowTpl">
@@ -40,7 +40,7 @@
                     </template>
                 </tr>
                 <tr >
-                    <td colspan="">Row</td>
+                    <td colspan="">Row <template is="kt-if" stmt="context.i1 % 2 == 0">Even<b>wurst</b></template></td>
                 </tr>
             </template>
         </tbody>

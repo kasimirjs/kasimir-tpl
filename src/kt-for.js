@@ -40,7 +40,7 @@ class KtFor extends KtRenderable {
             }
             for (let i = nodes.length-1; i>=0; i--)
                 this.parentElement.insertBefore(nodes[i], this.nextSibling);
-            this.elements.push({
+            this.elements.unshift({
                 node: nodes
             });
 
