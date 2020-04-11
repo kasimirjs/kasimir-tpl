@@ -26,7 +26,7 @@ var KT_FN = {
             var classes = null;
             let e = "classes = " + val;
             let ret = eval(e);
-            console.log("eval", e, "ret: ", ret, "classes:", classes);
+            // console.log("eval", e, "ret: ", ret, "classes:", classes);
         } catch (e) {
             throw e + " in [data] of " + elem.outerHTML;
         }
@@ -46,7 +46,7 @@ var KT_FN = {
             var classes = null;
             let e = "classes = " + val;
             let ret = eval(e);
-            console.log("eval", e, "ret: ", ret, "classes:", classes);
+            // console.log("eval", e, "ret: ", ret, "classes:", classes);
         } catch (e) {
             throw e + " in *attrs of " + elem.outerHTML;
         }
