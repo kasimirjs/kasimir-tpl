@@ -36,7 +36,9 @@
             <template is="kt-for" forSelect="rows" forEval="context.data = context.rows[idx];context.i1 = idx;">
                 <tr >
                     <template is="kt-for" forSelect="data">
-                        <td>ColB <kt-val stmt="context.i1"></kt-val></td>
+                        <template is="kt-maintain">
+                        <td [class]="{'alert-success': scope.i1 == 1}">ColB <kt-val stmt="context.i1"></kt-val></td>
+                        </template>
                     </template>
                 </tr>
                 <tr >
