@@ -18,7 +18,8 @@ class KtTpl extends HTMLElement {
             node.render(context);
             return;
         }
-
+        if (node.hasOwnProperty("ktOwner"))
+            return;
         for(let curNode of node.childNodes) {
             this.renderRecursive(curNode, context);
         }

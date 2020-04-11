@@ -20,27 +20,15 @@
 
 </style>
 
-<button id="btn1" onclick="for(let i=0; i<100; i++)context.rows.push(['a', 'b' + context.rows.length]);elem.render(context)">+</button>
+<button id="btn1" onclick="for(let i=0; i<1; i++)context.rows.push(['a', 'b' + context.rows.length]);elem.render(context)">+</button>
 <button onclick="context.rows.pop(); elem.render(context)">-</button>
 
 <kt-tpl id="rowTpl">
     <table class="table table-striped">
-        <thead>
-            <tr>
-                <template is="kt-for" forSelect="headers">
-                    <td>ColB <kt-val stmt="context.self"></kt-val></td>
-                </template>
-            </tr>
-        </thead>
         <tbody>
             <template is="kt-for" forSelect="rows" forEval="context.data = context.rows[idx];context.i1 = idx;">
                 <tr >
-                    <template is="kt-for" forSelect="data">
-                        <td>ColB <kt-val stmt="context.i1"></kt-val></td>
-                    </template>
-                </tr>
-                <tr >
-                    <td colspan="">Row</td>
+                    <td><kt-val stmt="context.i1"></kt-val></td>
                 </tr>
             </template>
         </tbody>

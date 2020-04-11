@@ -34,12 +34,16 @@ class KtFor extends KtRenderable {
         for (let idx = this.elements.length; idx < select.length; idx++ ) {
             let newNode = this.content.cloneNode(true);
             let nodes = [];
-            for (let curNode of newNode.childNodes)
+            for (let curNode of newNode.children) {
+                curNode.ktOwner = "for";
                 nodes.push(curNode);
+            }
+            for (let i = nodes.length-1; i>=0; i--)
+                this.parentElement.insertBefore(nodes[i], this.nextSibling);
             this.elements.push({
                 node: nodes
             });
-            this.parentElement.insertBefore(newNode, this.nextSibling);
+
         }
 
         for (let idx = 0; idx < select.length; idx++) {
@@ -48,7 +52,7 @@ class KtFor extends KtRenderable {
             if (this.params.foreval !== null)
                 eval(this.params.foreval);
             for (let curNode of this.elements[idx].node) {
-                this.renderRecursive(curNode, context);
+                this.renderRecursive(curNode, context, true);
             }
         }
 
