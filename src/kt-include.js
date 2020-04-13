@@ -19,35 +19,60 @@ class KtInclude extends KtRenderable {
         this.params[attrName] = newVal;
     }
 
-    render(context) {
-        let stmt = this.params.stmt;
-        let isTrue = eval(stmt);
 
-        if (isTrue) {
+    loadRemote () {
 
-            if (this.elements !== null) {
-                for (let curElement of this.elements)
-                    this.renderRecursive(curElement, context, true);
-                return;
-            }
-            let newNode = this.content.cloneNode(true);
-            this.elements = [];
-            for (let curNode of newNode.childNodes) {
-                curNode.ktOwner = "if";
-                this.elements.push(curNode);
-            }
-            for (let i = this.elements.length-1; i>=0; i--) {
-                this.parentElement.insertBefore(this.elements[i], this.nextSibling);
-            }
-            for (let curNode of this.elements)
-                this.renderRecursive(curNode, context, true);
-        } else {
-            if (this.elements === null)
-                return;
-            for (let node of this.elements)
-                this.parentElement.removeChild(node);
-            this.elements = null;
+    }
+
+
+    _appendChildFromContent() {
+        if (this.elements !== null)
+            return;
+        let newNode = this.content.cloneNode(true);
+        this.elements = [];
+        for (let curNode of newNode.childNodes) {
+            curNode.ktOwner = "include";
+            this.elements.push(curNode);
         }
+        for (let i = this.elements.length-1; i>=0; i--) {
+            this.parentElement.insertBefore(this.elements[i], this.nextSibling);
+        }
+    }
+
+    _renderElements() {
+        for (let curNode of this.elements)
+            this.renderRecursive(curNode, context, true);
+    }
+
+    loadDataRemote() {
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET", this.params.src);
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState === 4) {
+                if (xhttp.status >= 400) {
+                    console.warn("Can't load '" + this.params.src + "': " + xhttp.responseText);
+                    return;
+                }
+                this.innerHTML = xhttp.responseText;
+                let p = new KtTemplateParser();
+                p.parseRecursive(this.content);
+                this._appendChildFromContent();
+                this._renderElements();
+                return;
+            }
+
+        };
+
+        xhttp.send();
+    }
+
+
+    render(context) {
+        if (this.elements === null)
+            this.loadDataRemote();
+        else
+            this._renderElements();
 
     }
 }

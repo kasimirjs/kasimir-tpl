@@ -3,7 +3,7 @@
 A browser-side template system library. Nothing more.
 
 - Small footprint
-- Oriented on angular / vuejs 
+- Oriented on angular / vuejs templates
 - Based on web components
     - Supported by all new browsers
     - Very easy to understand the source code
@@ -28,4 +28,13 @@ let tpl = kasimir_tpl("tpl1");
 tpl.render(data);
 ```
 
+
+## Installation
+
+Use cdn
+
+
+Use npm
+
+Copy 'n paste
 
