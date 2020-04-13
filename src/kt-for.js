@@ -7,6 +7,7 @@ class KtFor extends KtRenderable {
     constructor() {
         super();
         this.elements = [];
+        this.origSibling = false;
         this.params = {
             "forselect": null,
             "foridx": "idx",
@@ -30,6 +31,9 @@ class KtFor extends KtRenderable {
             throw "Invalid forSelect selector. see waring."
         }
 
+        if (this.origSibling === false)
+            this.origSibling = this.nextSibling;
+        console.log (this.origSibling);
 
         for (let idx = this.elements.length; idx < select.length; idx++ ) {
             let newNode = this.content.cloneNode(true);
@@ -38,9 +42,9 @@ class KtFor extends KtRenderable {
                 curNode.ktOwner = "for";
                 nodes.push(curNode);
             }
-            for (let i = nodes.length-1; i>=0; i--)
-                this.parentElement.insertBefore(nodes[i], this.nextSibling);
-            this.elements.unshift({
+            for (let i = 0; i < nodes.length; i++)
+                this.parentElement.insertBefore(nodes[i], this.origSibling);
+            this.elements.push({
                 node: nodes
             });
 
@@ -50,7 +54,7 @@ class KtFor extends KtRenderable {
             context[this.params.foridx] = idx;
             context["self"] = select[idx];
             if (this.params.foreval !== null)
-                eval(this.params.foreval);
+                this._hlpr.keval(this.params.foreval, context, this);
             for (let curNode of this.elements[idx].node) {
                 this.renderRecursive(curNode, context, true);
             }

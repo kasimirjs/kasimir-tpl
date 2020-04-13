@@ -26,9 +26,12 @@
 <kt-tpl id="rowTpl">
     <table class="table table-striped">
         <tbody>
-            <template is="kt-for" forSelect="rows" forEval="$.data = $.rows[$.idx];context.i1 = idx;">
+            <template is="kt-for" forSelect="rows" forEval="$.data = $.rows[$.idx];$.i1 = $.idx;">
                 <tr >
-                    <td><kt-val stmt="$.i1"></kt-val></td>
+                    <td>
+                        <kt-val stmt="$.i1"></kt-val>
+                        <input>
+                    </td>
                 </tr>
             </template>
         </tbody>

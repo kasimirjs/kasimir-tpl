@@ -1,6 +1,11 @@
 
 class KtRenderable extends HTMLTemplateElement {
 
+    constructor() {
+        super();
+        this._hlpr = new KtHelper();
+    }
+
     /**
      *
      * @param {HTMLElement} node
