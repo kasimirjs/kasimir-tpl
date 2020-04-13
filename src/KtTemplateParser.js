@@ -5,11 +5,44 @@ class KtTemplateParser {
 
     /**
      *
+     * @param text
+     * @param {DocumentFragment} fragment
+     * @return {null}
+     * @private
+     */
+    _parseTextNode (text, fragment) {
+        let split = text.split(/(\{\{|\}\})/);
+        console.log(split);
+        while(split.length > 0) {
+            fragment.appendChild(new Text(split.shift()));
+            if (split.length === 0)
+                break;
+
+            split.shift();
+            let val = new KtVal();
+            val.setAttribute("stmt", split.shift());
+            split.shift();
+            fragment.appendChild(val);
+        }
+    }
+
+    /**
+     *
      * @param {HTMLElement} node
      */
     parseRecursive(node) {
+
         if (typeof node.getAttribute !== "function")
             return;
+
+        for (let textNode of node.childNodes) {
+            if (typeof textNode.data === "undefined")
+                continue;
+            let fragment = new DocumentFragment();
+            this._parseTextNode(textNode.data, fragment);
+            textNode.replaceWith(fragment);
+
+        }
 
         if (node.hasAttribute("*for")) {
             let newNode = document.createElement("template", {is: "kt-for"});
@@ -72,6 +105,9 @@ class KtTemplateParser {
 
         for (let curNode of node.children)
             this.parseRecursive(curNode);
+
+
+
     }
 
 }

@@ -18,7 +18,7 @@ class KtVal extends HTMLElement {
     }
 
     render(context) {
-        this.innerText = JSON.stringify(eval(this.params.stmt));
+        this.innerText = eval(this.params.stmt);
     }
 }
 

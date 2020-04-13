@@ -4,9 +4,8 @@ A browser-side template system library. Nothing more.
 
 - Small footprint
 - Oriented on angular / vuejs templates
+- Complete eval'ed() javscript expressions wherever possible
 - Based on web components
-    - Supported by all new browsers
-    - Very easy to understand the source code
 
 ## Example
 
@@ -37,4 +36,14 @@ Use cdn
 Use npm
 
 Copy 'n paste
+
+
+## Usage
+
+### Access the scope
+
+
+
+### IF conditions
+
 

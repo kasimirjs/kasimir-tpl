@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+
+
+<button id="btn1" onclick="for(let i=0; i<5; i++)context.rows.push(['a', 'b' +i]);elem.render(context)">+</button>
+<button onclick="context.rows.pop(); elem.render(context)">-</button>
+
+<kt-tpl id="rowTpl">
+    Some text {{ context.data }} goes after
+</kt-tpl>
+<script>
+    let context = {
+        data: "hello <b> wurst</b>",
+        headers: ["col1", "col2"],
+        rows: []
+    };
+    let elem = kt_tpl("rowTpl");
+    r = new KtTemplateParser();
+    r.parseRecursive(elem);
+    /* @var {HTMLTemplateElement} elem */
+    elem.render(context);
+</script>
+
+
+
+</body>
+</html>
