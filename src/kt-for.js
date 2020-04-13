@@ -24,7 +24,7 @@ class KtFor extends KtRenderable {
 
     render(context) {
         let select = context[this.params.forselect];
-
+        let $ = context;
         if (typeof select !== "object") {
             console.warn(`Invalid forSelect="${this.params.forselect}" returned:`, select, "on context", context, "(Element: ", this.outerHTML, ")");
             throw "Invalid forSelect selector. see waring."

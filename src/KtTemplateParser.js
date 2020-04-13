@@ -12,7 +12,6 @@ class KtTemplateParser {
      */
     _parseTextNode (text, fragment) {
         let split = text.split(/(\{\{|\}\})/);
-        console.log(split);
         while(split.length > 0) {
             fragment.appendChild(new Text(split.shift()));
             if (split.length === 0)
@@ -34,6 +33,11 @@ class KtTemplateParser {
 
         if (typeof node.getAttribute !== "function")
             return;
+
+        if (node.ktParsed === true)
+            return;
+
+        node.ktParsed = true;
 
         for (let textNode of node.childNodes) {
             if (typeof textNode.data === "undefined")

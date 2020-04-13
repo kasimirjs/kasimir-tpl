@@ -6,8 +6,11 @@ function kt_tpl(selector) {
     if (selector instanceof KtTpl)
         return selector;
     let elem = document.getElementById(selector);
-    if (elem instanceof KtTpl)
+    if (elem instanceof KtTpl) {
+        let r = new KtTemplateParser;
+        r.parseRecursive(elem);
         return elem;
+    }
     throw `Selector '${selector}' is not a <kt-tpl> element`;
 }
 
@@ -22,6 +25,7 @@ var KT_FN = {
      */
     "kt-classes": function(elem, val, scope) {
         "use strict";
+        let $ = scope;
         try {
             var classes = null;
             let e = "classes = " + val;
@@ -42,6 +46,7 @@ var KT_FN = {
     },
 
     "kt-attrs": function (elem, val, scope) {
+        let $ = scope;
         try {
             var classes = null;
             let e = "classes = " + val;

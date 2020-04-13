@@ -7,6 +7,7 @@ class KtTpl extends HTMLElement {
         this.params = {
             "stmt": null
         }
+        this.scope = {};
     }
     /**
      *
@@ -28,6 +29,16 @@ class KtTpl extends HTMLElement {
     static get observedAttributes() {
         return ["stmt"];
     }
+
+    set $(val) {
+        this.scope = val;
+        this.renderRecursive(this.scope);
+    }
+
+    get $() {
+        return this.scope;
+    }
+
 
     attributeChangedCallback(attrName, oldVal, newVal) {
         this.params[attrName] = newVal;

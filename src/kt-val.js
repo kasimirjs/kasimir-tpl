@@ -18,6 +18,7 @@ class KtVal extends HTMLElement {
     }
 
     render(context) {
+        let $ = context;
         this.innerText = eval(this.params.stmt);
     }
 }

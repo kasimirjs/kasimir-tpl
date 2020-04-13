@@ -12,13 +12,11 @@
 <button onclick="context.rows.pop(); elem.render(context)">-</button>
 
 <kt-tpl id="rowTpl">
-    Some text {{ context.data }} goes after
+    Some text {{ context.data }} goes after {{context.data}}<div>Wurst</div>
 </kt-tpl>
 <script>
     let context = {
         data: "hello <b> wurst</b>",
-        headers: ["col1", "col2"],
-        rows: []
     };
     let elem = kt_tpl("rowTpl");
     r = new KtTemplateParser();

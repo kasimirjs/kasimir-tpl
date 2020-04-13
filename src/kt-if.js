@@ -22,6 +22,7 @@ class KtIf extends KtRenderable {
 
     render(context) {
         let stmt = this.params.stmt;
+        let $ = context;
         let isTrue = eval(stmt);
 
         if (isTrue) {
