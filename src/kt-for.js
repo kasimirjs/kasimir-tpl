@@ -33,7 +33,6 @@ class KtFor extends KtRenderable {
 
         if (this.origSibling === false)
             this.origSibling = this.nextSibling;
-        console.log (this.origSibling);
 
         for (let idx = this.elements.length; idx < select.length; idx++ ) {
             let newNode = this.content.cloneNode(true);
