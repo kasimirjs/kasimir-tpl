@@ -1,28 +1,31 @@
 # Kasimir template
 
-A vanillajs template client-side renderer.
+A browser-side template system library. Nothing more.
+
+- Small footprint
+- Oriented on angular / vuejs 
+- Based on web components
+    - Supported by all new browsers
+    - Very easy to understand the source code
 
 ## Example
 
 The Template:
 
 ```html
-<template id="tpl1">
-    <div *for="let data of scope.list">
-        Hello ${data} <button onclick="console.log(data)">View</button>
-        <b *if="data == 'Index 6'">This is the 6</b>
-    </div>
-</template>
+<div *for="let $.row in $.rows" id="tpl1">
+    <div [classlist.success]="$.row.success === true">{{ $.row.msg }}</div>
+</div>
 ```
 
-Render the template:
 ```javascript
-
 let data = {
-    list: [],
-    name: "Matthias"
+   rows: [
+       {success: false, msg: "failed"}
+   ]
 };
-let tpl1 = kasimir_tpl("#tpl1").bind("#target").observe(data);
+let tpl = kasimir_tpl("tpl1");
+tpl.render(data);
 ```
 
 
