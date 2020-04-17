@@ -7,7 +7,7 @@ class KtIf extends KtRenderable {
     constructor() {
         super();
         this.elements = null;
-        this.params = {
+        this._attrs = {
             "stmt": null
         }
     }
@@ -17,13 +17,13 @@ class KtIf extends KtRenderable {
     }
 
     attributeChangedCallback(attrName, oldVal, newVal) {
-        this.params[attrName] = newVal;
+        this._attrs[attrName] = newVal;
     }
 
     render(context) {
         let stmt = this.params.stmt;
-        let $ = context;
-        let isTrue = eval(stmt);
+
+        let isTrue = this._hlpr.scopeEval($scope, this._attr.stmt);
 
         if (isTrue) {
 

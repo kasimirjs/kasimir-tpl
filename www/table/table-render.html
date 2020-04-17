@@ -28,7 +28,7 @@
         <tbody>
             <tr *for="rows">
                 <td><div *if="true" [wurst]="'yello'"></div>wurst</td>
-                <td [classlist.success]="scope.idx == 2">{{ $$.wurst }} <input [value]="'muh' + scope.idx"></td>
+                <td [classlist.success]="scope.idx == 2">{{  wurst  }} <input [value]="'muh' + scope.idx"></td>
 
             </tr>
         </tbody>
@@ -39,7 +39,7 @@
         headers: ["col1", "col2"],
         rows: []
     };
-    let elem = kt_tpl("rowTpl");
+    let elem = ka_tpl("rowTpl");
     r = new KtTemplateParser();
     r.parseRecursive(elem);
     /* @var {HTMLTemplateElement} elem */

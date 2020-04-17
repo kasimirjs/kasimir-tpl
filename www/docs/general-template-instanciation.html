@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Templates :: Template instanciation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/dist/docs.css">
+</head>
+<body class="container">
+
+    <h1>Template instanciation</h1>
+    <h2>Manual instanciation</h2>
+    <div id="ex01" class="example">
+        <template is="ka-tpl" id="tpl01">
+            Welcome {{ name }}
+            <div *for="list" >Hello {{ name }}</div>
+        </template>
+        <!-- sibling with attribute 'ka-loader' this is removed on first render -->
+        <div ka-loader>Loading...</div>
+
+        <button onclick="ka_tpl('tpl01').render({name: 'Dude', list:['a', 'b']})">Load template</button>
+    </div>
+    <pre class="code"><ka-val
+            stmt="document.getElementById('ex01').innerHTML"
+            unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <h2>Automatic instanciation</h2>
+    <div id="ex02" class="example">
+        <template is="ka-tpl" auto>
+            <div>
+            This is the {{ 'muh' }} template <ka-val debug stmt="'hello'"></ka-val> text
+            </div>
+        </template>
+    </div>
+    <pre class="code"><ka-val
+            stmt="document.getElementById('ex02').innerHTML"
+            unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <script>
+
+    </script>
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+</body>
+</html>

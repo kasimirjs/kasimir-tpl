@@ -1,17 +1,15 @@
 /**
  *
- * @return KtTpl
+ * @return KaTpl
  */
-function kt_tpl(selector) {
-    if (selector instanceof KtTpl)
+function ka_tpl(selector) {
+    if (selector instanceof KaTpl)
         return selector;
     let elem = document.getElementById(selector);
-    if (elem instanceof KtTpl) {
-        let r = new KtTemplateParser;
-        r.parseRecursive(elem);
+    if (elem instanceof KaTpl) {
         return elem;
     }
-    throw `Selector '${selector}' is not a <kt-tpl> element`;
+    throw `Selector '${selector}' is not a <template is="ka-tpl"> element`;
 }
 
 
@@ -26,6 +24,9 @@ var KT_FN = {
     "kt-classes": function(elem, val, scope) {
         "use strict";
         let $ = scope;
+        for (let __name in scope) {
+            eval(`let ${__name} = scope['${__name}'];`);
+        }
         try {
             var classes = null;
             let e = "classes = " + val;
@@ -47,6 +48,9 @@ var KT_FN = {
 
     "kt-attrs": function (elem, val, scope) {
         let $ = scope;
+        for (let __name in scope) {
+            eval(`let ${__name} = scope['${__name}'];`);
+        }
         try {
             var classes = null;
             let e = "classes = " + val;

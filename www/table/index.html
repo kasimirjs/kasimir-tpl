@@ -20,10 +20,10 @@
 
 </style>
 
-<button id="btn1" onclick="for(let i=0; i<5; i++)context.rows.push(['a', 'b' +i]);elem.render(context)">+</button>
+<button id="btn1" onclick="for(let i=0; i<500; i++)context.rows.push(['a', 'b' +i]);elem.render(context)">+</button>
 <button onclick="context.rows.pop(); elem.render(context)">-</button>
 
-<kt-tpl id="rowTpl">
+<template id="rowTpl">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -37,7 +37,7 @@
                 <tr >
                     <template is="kt-for" forSelect="data">
                         <template is="kt-maintain">
-                        <td [class]="{'alert-success': $.i1 == 1}">ColB <kt-val stmt="$.i1"></kt-val></td>
+                        <td [class]="{'alert-success': i1 == 1}">ColB <kt-val stmt="i1"></kt-val></td>
                         </template>
                     </template>
                 </tr>
@@ -47,13 +47,13 @@
             </template>
         </tbody>
     </table>
-</kt-tpl>
+</template>
 <script>
     let context = {
         headers: ["col1", "col2"],
         rows: []
     };
-    let elem = kt_tpl("rowTpl");
+    let elem = ka_tpl("rowTpl");
     /* @var {HTMLTemplateElement} elem */
     elem.render(context);
 </script>

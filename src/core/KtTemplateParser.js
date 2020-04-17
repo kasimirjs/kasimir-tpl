@@ -18,8 +18,8 @@ class KtTemplateParser {
                 break;
 
             split.shift();
-            let val = new KtVal();
-            val.setAttribute("stmt", split.shift());
+            let val = new KaVal();
+            val.setAttribute("stmt", split.shift().trim());
             split.shift();
             fragment.appendChild(val);
         }
@@ -30,6 +30,13 @@ class KtTemplateParser {
      * @param {HTMLElement} node
      */
     parseRecursive(node) {
+        //console.log("[ka-tpl] parseRecursive(", node, ")");
+        if (node instanceof DocumentFragment) {
+            for (let n of node.children)
+                this.parseRecursive(n);
+            return;
+        }
+
 
         if (typeof node.getAttribute !== "function")
             return;

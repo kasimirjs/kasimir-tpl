@@ -19,5 +19,26 @@ class KtHelper {
         }
     }
 
+    /**
+     * Returns a string to be eval()'ed registering
+     * all the variables in scope to method context
+     *
+     * @param {object} $scope
+     * @param {string} selector
+     * @return {string}
+     *
+     */
+    scopeEval($scope, selector) {
+        let r = "let $ = $scope;";
+        for (let __name in $scope) {
+            r += `var ${__name} = $scope['${__name}'];`
+        }
+        let __val = null;
+        r += `__val = ${selector};`;
+        console.log(r);
+        eval(r);
+        return __val;
+    }
+
 
 }
