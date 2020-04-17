@@ -3,8 +3,6 @@ class KaTpl extends KtRenderable {
 
     constructor() {
         super();
-
-
         this._attrs = {
             "debug": false,
             "stmt": null,
@@ -12,29 +10,11 @@ class KaTpl extends KtRenderable {
         };
         this._scope = {};
     }
-    /**
-     *
-     * @param {HTMLElement} node
-     * @param {object} context
-     */
-    renderRecursive(node, context) {
-        if (typeof node.render === "function") {
-            node.render(context);
-            return;
-        }
-        if (node.hasOwnProperty("ktOwner"))
-            return;
-        for(let curNode of node.childNodes) {
-            this.renderRecursive(curNode, context);
-        }
 
-    }
     static get observedAttributes() {
         return ["stmt", "debug"];
     }
-    attributeChangedCallback(attrName, oldVal, newVal) {
-        this.params[attrName] = newVal;
-    }
+
 
     disconnectedCallback() {
         for (let el of this._els)
@@ -80,19 +60,16 @@ class KaTpl extends KtRenderable {
 
             let cn = this.content.cloneNode(true);
             this._els = [];
-            if ( ! cn.hasChildNodes()) {
-                console.warn("No child nodes (element node required) in " . this.outerHTML)
-            }
-            this._log(cn);
+
             for (let cel of cn.children) {
                 cel.ktOwner = "tpl";
                 this._els.push(cel);
-
+                this._log("render(): add", cel);
                 this.parentElement.insertBefore(cel, sibling);
             }
         }
         for(let ce of this._els) {
-            this.renderRecursive(ce, $scope);
+            this.renderRecursive(ce, $scope, true);
         }
     }
 }

@@ -1,5 +1,9 @@
 
+var _KT_ELEMENT_ID = 0;
+
 class KtRenderable extends HTMLTemplateElement {
+
+
 
     constructor() {
         super();
@@ -18,15 +22,20 @@ class KtRenderable extends HTMLTemplateElement {
          * @type {HTMLElement[]}
          * @private
          */
+        this._ktId = ++_KT_ELEMENT_ID;
         this._els = null;
         this._attrs = {"debug": false};
     }
 
+    attributeChangedCallback(attrName, oldVal, newVal) {
+        this._attrs[attrName] = newVal;
+    }
 
+    _log(v1, v2, v3) {
+        let a = arguments;
 
-    _log() {
         if (this._attrs.debug !== false)
-            console.log(arguments);
+            console.log.apply(this, a);
     }
 
 
