@@ -35,7 +35,6 @@ class KtHelper {
         }
         let __val = null;
         r += `__val = ${selector};`;
-        console.log(r);
         eval(r);
         return __val;
     }

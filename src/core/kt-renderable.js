@@ -22,9 +22,16 @@ class KtRenderable extends HTMLTemplateElement {
          * @type {HTMLElement[]}
          * @private
          */
-        this._ktId = ++_KT_ELEMENT_ID;
         this._els = null;
         this._attrs = {"debug": false};
+        /**
+         * The internal element id to identify which elements
+         * to render.
+         *
+         * @type {number}
+         * @private
+         */
+        this._ktId = ++_KT_ELEMENT_ID;
     }
 
     attributeChangedCallback(attrName, oldVal, newVal) {

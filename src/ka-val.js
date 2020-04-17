@@ -29,8 +29,11 @@ class KaVal extends HTMLElement {
             this.render({});
     }
     _log() {
-        if (this._attrs.debug !== false)
-            console.log(arguments);
+        if (this._attrs.debug !== false) {
+
+            console.log.apply(this, arguments);
+        }
+
     }
     render($scope) {
         this._log(`render(`, $scope, `) on '${this.outerHTML}'`);
