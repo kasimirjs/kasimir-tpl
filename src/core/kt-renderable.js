@@ -24,6 +24,7 @@ class KtRenderable extends HTMLTemplateElement {
          */
         this._els = null;
         this._attrs = {"debug": false};
+
         /**
          * The internal element id to identify which elements
          * to render.
@@ -51,19 +52,42 @@ class KtRenderable extends HTMLTemplateElement {
      * @param {HTMLElement} node
      * @param {object} context
      */
-    renderRecursive(node, context, ownerNodes) {
+    renderRecursive(node, $scope, ownerNodes) {
+        if (node.hasOwnProperty("_kaMb") && node._kaMb !== this._ktId)
+            return;
         if (typeof node.render === "function") {
-            node.render(context);
+            node.render($scope);
             return;
         }
-        if (node.hasOwnProperty("ktOwner") && ownerNodes !== true)
-            return;
-
         for(let curNode of node.childNodes) {
             if (node.ktSkipRender === true)
                 return;
-            this.renderRecursive(curNode, context);
+            this.renderRecursive(curNode, $scope);
         }
+    }
+
+    removeNode() {
+        for (let el of this._els) {
+            if (typeof el.removeNode === "function")
+                el.removeNode();
+            if (this.parentElement !== null)
+                this.parentElement.removeChild(el);
+        }
+    }
+
+    _appendElementsToParent(sibling) {
+        if (typeof sibling === "undefined")
+            sibling = this.nextSibling;
+
+        let cn = this.content.cloneNode(true);
+        this._els = [];
+        this._log(cn.children);
+        for (let cel of cn.children) {
+            cel._kaMb = this._ktId;
+            this._els.push(cel);
+        }
+
+        this.parentElement.insertBefore(cn, sibling);
 
     }
 

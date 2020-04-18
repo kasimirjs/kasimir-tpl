@@ -8,24 +8,24 @@
 </head>
 <body class="container">
 
-    <h1>Template instanciation</h1>
-    <h2>Manual instanciation</h2>
+    <h2>Template instanciation</h2>
+    <h3>Manual instanciation</h3>
     <div id="ex01" class="example">
         <template is="ka-tpl" id="tpl01">
-            Welcome {{ name }}
             <div *for="list" >Hello {{ name }}</div>
         </template>
         <!-- sibling with attribute 'ka-loader' this is removed on first render -->
         <div ka-loader>Loading...</div>
 
-        <button onclick="ka_tpl('tpl01').$scope = {name: 'Dude', list:['a', 'b']}">$scope=</button>
-        <button onclick="ka_tpl('tpl01').render({name: 'Dude', list:['a', 'b']})">render()</button>
+        <button class="btn btn-primary" onclick="ka_tpl('tpl01').$scope = {name: 'Dude', list:['a', 'b']}">$scope=</button>
+        <button class="btn btn-primary" onclick="ka_tpl('tpl01').render({name: 'Dude', list:['a', 'b']})">render()</button>
+        <input onkeyup="ka_tpl('tpl01').$scope.name = this.value">
     </div>
     <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
 
 
 
-    <h2>Automatic instanciation</h2>
+    <h3>Automatic instanciation</h3>
     <div id="ex02" class="example">
         <template is="ka-tpl" auto>
             abc
@@ -38,24 +38,21 @@
 
     <h3>Autonomous templates</h3>
     <div id="ex03" class="example">
-        <template is="ka-tpl" auto debug>
+        <template is="ka-tpl" auto>
             <script>
-                let self = KASELF;
-                console.log ("ready");
-                self.$scope = {"time": "blah"};
+                // this
+                ((self) => {
+                    self.$scope = {"time": "init value"};
 
-                window.setInterval(() => {
+                    window.setInterval(() => {
+                        self.$scope.time = (new Date).toLocaleString();
+                    } , 1000);
 
-                    self.$scope.time = (new Date).toLocaleString();
-                } , 1000);
-
-
+                })(KASELF);
             </script>
             <div>
                 Time: {{ time }}
             </div>
-
-
         </template>
     </div>
     <pre class="code"><ka-val stmt="document.getElementById('ex03').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>

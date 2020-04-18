@@ -13,6 +13,7 @@ class KaTpl extends KtRenderable {
 
         // Switched to to during _init() to allow <script> to set scope without rendering.
         this._isInitializing = false;
+        this._isRendering = false;
         this._scope = {};
     }
 
@@ -53,12 +54,23 @@ class KaTpl extends KtRenderable {
     }
 
     get $scope() {
-        return new Proxy(this._scope, {
+        let handler = {
             set: (target, property, value, receiver) => {
+                //console.log ("set:", target, property, value);
                 target[property] = value;
-                this.render(this.$scope);
+                // Don't update proxy during rendering (recursion)
+                if ( ! this._isRendering)
+                    this.render(this.$scope);
+                return true;
+            },
+            get: (target, key) => {
+                if (typeof target[key] === "object")
+                    return new Proxy(target[key], handler);
+                return target[key];
             }
-        });
+
+        };
+        return new Proxy(this._scope, handler);
     }
 
 
@@ -75,15 +87,9 @@ class KaTpl extends KtRenderable {
         let sibling = this.nextSibling;
         (new KtTemplateParser).parseRecursive(this.content);
 
-        let cn = this.content.cloneNode(true);
-        this._els = [];
-        this._log(cn.children);
-        for (let cel of cn.children) {
-            cel.ktOwner = this._ktId;
-            this._els.push(cel);
-        }
         KASELF = this;
-        this.parentElement.insertBefore(cn, sibling);
+        if (this._els === null)
+            this._appendElementsToParent();
 
         this._isInitializing = false;
     }
@@ -91,9 +97,11 @@ class KaTpl extends KtRenderable {
     render($scope) {
         this._log("render($scope= ", $scope, ")");
         this._init();
+        this._isRendering = true;
         for(let ce of this._els) {
             this.renderRecursive(ce, $scope, true);
         }
+        this._isRendering = false;
     }
 }
 

@@ -23,18 +23,9 @@ var KT_FN = {
      */
     "kt-classes": function(elem, val, scope) {
         "use strict";
-        let $ = scope;
-        for (let __name in scope) {
-            eval(`let ${__name} = scope['${__name}'];`);
-        }
-        try {
-            var classes = null;
-            let e = "classes = " + val;
-            let ret = eval(e);
-            // console.log("eval", e, "ret: ", ret, "classes:", classes);
-        } catch (e) {
-            throw e + " in [data] of " + elem.outerHTML;
-        }
+
+        let kthelper = new KtHelper();
+        let classes = kthelper.scopeEval(scope, val);
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
                 continue;
@@ -48,17 +39,8 @@ var KT_FN = {
 
     "kt-attrs": function (elem, val, scope) {
         let $ = scope;
-        for (let __name in scope) {
-            eval(`let ${__name} = scope['${__name}'];`);
-        }
-        try {
-            var classes = null;
-            let e = "classes = " + val;
-            let ret = eval(e);
-            // console.log("eval", e, "ret: ", ret, "classes:", classes);
-        } catch (e) {
-            throw e + " in *attrs of " + elem.outerHTML;
-        }
+        let kthelper = new KtHelper();
+        let classes = kthelper.scopeEval(scope, val);
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
                 continue;

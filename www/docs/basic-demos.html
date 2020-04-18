@@ -8,58 +8,37 @@
 </head>
 <body class="container">
 
-    <h1>Template instanciation</h1>
-    <h2>Manual instanciation</h2>
+    <h2>Basic demos</h2>
+    <h3>Render a table</h3>
     <div id="ex01" class="example">
         <template is="ka-tpl" id="tpl01">
-            <div *for="list" >Hello {{ name }}</div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr *for="names" [classlist.alert-secondary]="idx % 2 === 1">
+                        <td >hello {{ idx }}</td>
+                        <td><input [value]="'idx'"></td>
+                    </tr>
+                </tbody>
+            </table>
         </template>
-        <!-- sibling with attribute 'ka-loader' this is removed on first render -->
-        <div ka-loader>Loading...</div>
+        <button class="btn btn-primary" onclick="ka_tpl('tpl01').$scope.names.push({})">Push</button>
+        <button class="btn btn-primary" onclick="ka_tpl('tpl01').$scope.names.pop()">Pop</button>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                ka_tpl("tpl01").$scope = {
+                    names: [
+                        {name: "alfed", surname: "wasigno"},
+                        {name: "alfed", surname: "wasigno"}
+                    ]
+                }
+            });
 
-        <button onclick="ka_tpl('tpl01').$scope = {name: 'Dude', list:['a', 'b']}">$scope=</button>
-        <button onclick="ka_tpl('tpl01').render({name: 'Dude', list:['a', 'b']})">render()</button>
-        <input onkeyup="ka_tpl('tpl01').$scope.name = this.value">
+        </script>
     </div>
     <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
 
 
 
-    <h2>Automatic instanciation</h2>
-    <div id="ex02" class="example">
-        <template is="ka-tpl" auto>
-            abc
-            <div>
-            This is the {{ 'muh' }} template <ka-val stmt="'hello'"></ka-val> text
-            </div>
-        </template>
-    </div>
-    <pre class="code"><ka-val stmt="document.getElementById('ex02').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
-
-    <h3>Autonomous templates</h3>
-    <div id="ex03" class="example">
-        <template is="ka-tpl" auto>
-            <script>
-                // this
-                ((self) => {
-                    self.$scope = {"time": "init value"};
-
-                    window.setInterval(() => {
-                        //self.$scope.time = (new Date).toLocaleString();
-                    } , 1000);
-
-                })(KASELF);
-            </script>
-            <div>
-                Time: {{ time }}
-            </div>
-        </template>
-    </div>
-    <pre class="code"><ka-val stmt="document.getElementById('ex03').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
-
-    <script>
-
-    </script>
     <script type="application/javascript" src="/dist/w3codecolor.js"></script>
     <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
 </body>

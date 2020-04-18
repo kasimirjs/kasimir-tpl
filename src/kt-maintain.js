@@ -6,44 +6,36 @@ class KtMaintain extends KtRenderable {
 
     constructor() {
         super();
-        this.elements = null;
-        this.params = {
-            "stmt": null
+        this._attrs = {
+            "stmt": null,
+            "debug": false
         }
     }
 
     static get observedAttributes() {
-        return ["stmt"];
+        return ["stmt", "debug"];
     }
 
-    attributeChangedCallback(attrName, oldVal, newVal) {
-        this.params[attrName] = newVal;
+
+    disconnectedCallback() {
+        this.removeNode();
     }
 
-    render(context) {
-
-        if (this.elements === null) {
-            let newNode = this.content.cloneNode(true);
-            this.elements = [];
-            for (let curNode of newNode.childNodes) {
-                curNode.ktOwner = "maintain";
-                this.elements.push(curNode);
-            }
-            for (let i = this.elements.length-1; i>=0; i--) {
-                this.parentElement.insertBefore(this.elements[i], this.nextSibling);
-            }
+    render($scope) {
+        if (this._els === null) {
+            this._appendElementsToParent()
         }
 
-        for (let curElement of this.elements) {
+        for (let curElement of this._els) {
             if ( typeof curElement.hasAttribute !== "function")
                 continue;
             for (let attrName in KT_FN) {
 
                 if ( ! curElement.hasAttribute(attrName))
                     continue;
-                KT_FN[attrName](curElement, curElement.getAttribute(attrName), context);
+                KT_FN[attrName](curElement, curElement.getAttribute(attrName), $scope);
             }
-            this.renderRecursive(curElement, context, true);
+            this.renderRecursive(curElement, $scope, true);
         }
     }
 }

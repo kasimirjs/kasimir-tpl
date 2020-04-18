@@ -7,4 +7,5 @@
     background-color: #f8f9fa;
     padding: 25px;
     overflow: auto;
+    max-height: 300px;
 }

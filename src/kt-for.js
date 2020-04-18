@@ -38,7 +38,7 @@ class KtFor extends KtRenderable {
             let newNode = this.content.cloneNode(true);
             let nodes = [];
             for (let curNode of newNode.children) {
-                curNode.ktOwner = "for";
+                curNode._kaMb = this._ktId;
                 nodes.push(curNode);
             }
             for (let i = 0; i < nodes.length; i++)
@@ -62,8 +62,11 @@ class KtFor extends KtRenderable {
 
         for (let idx = this.elements.length; select.length < this.elements.length; idx++) {
             let elem = this.elements.pop();
-            for (let curNode of elem.node)
+            for (let curNode of elem.node) {
+                if (typeof curNode.removeNode === "function")
+                    curNode.removeNode();
                 this.parentElement.removeChild(curNode);
+            }
         }
     }
 }
