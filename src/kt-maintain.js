@@ -18,7 +18,7 @@ class KtMaintain extends KtRenderable {
 
 
     disconnectedCallback() {
-        this.removeNode();
+        this._removeNodes();
     }
 
     render($scope) {
@@ -30,7 +30,6 @@ class KtMaintain extends KtRenderable {
             if ( typeof curElement.hasAttribute !== "function")
                 continue;
             for (let attrName in KT_FN) {
-
                 if ( ! curElement.hasAttribute(attrName))
                     continue;
                 KT_FN[attrName](curElement, curElement.getAttribute(attrName), $scope);

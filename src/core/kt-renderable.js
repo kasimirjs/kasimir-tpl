@@ -10,7 +10,7 @@ class KtRenderable extends HTMLTemplateElement {
         /**
          *
          * @type {KtHelper}
-         * @private
+         * @protected
          */
         this._hlpr = new KtHelper();
 
@@ -20,7 +20,7 @@ class KtRenderable extends HTMLTemplateElement {
          * null indicates, the template was not yet rendered
          *
          * @type {HTMLElement[]}
-         * @private
+         * @protected
          */
         this._els = null;
         this._attrs = {"debug": false};
@@ -30,7 +30,7 @@ class KtRenderable extends HTMLTemplateElement {
          * to render.
          *
          * @type {number}
-         * @private
+         * @protected
          */
         this._ktId = ++_KT_ELEMENT_ID;
     }
@@ -48,17 +48,26 @@ class KtRenderable extends HTMLTemplateElement {
 
 
     /**
+     * Walk through all elements and try to render them.
+     *
+     * if a element has the _kaMb (maintained by) property set,
+     * check if it equals this._kaId (the element id). If not,
+     * skip this node.
+     *
      *
      * @param {HTMLElement} node
-     * @param {object} context
+     * @param {object} $scope
      */
-    renderRecursive(node, $scope, ownerNodes) {
+    renderRecursive(node, $scope) {
         if (node.hasOwnProperty("_kaMb") && node._kaMb !== this._ktId)
             return;
+
+
         if (typeof node.render === "function") {
             node.render($scope);
             return;
         }
+
         for(let curNode of node.childNodes) {
             if (node.ktSkipRender === true)
                 return;
@@ -66,15 +75,25 @@ class KtRenderable extends HTMLTemplateElement {
         }
     }
 
-    removeNode() {
+    _removeNodes() {
+        if (this._els === null)
+            return;
         for (let el of this._els) {
-            if (typeof el.removeNode === "function")
-                el.removeNode();
+            if (typeof el._removeNodes === "function")
+                el._removeNodes();
             if (this.parentElement !== null)
                 this.parentElement.removeChild(el);
         }
+        this._els = null;
     }
 
+    /**
+     * Clone and append all elements in
+     * content of template to the next sibling.
+     *
+     * @param sibling
+     * @protected
+     */
     _appendElementsToParent(sibling) {
         if (typeof sibling === "undefined")
             sibling = this.nextSibling;

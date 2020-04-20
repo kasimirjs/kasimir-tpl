@@ -99,7 +99,7 @@ class KaTpl extends KtRenderable {
         this._init();
         this._isRendering = true;
         for(let ce of this._els) {
-            this.renderRecursive(ce, $scope, true);
+            this.renderRecursive(ce, $scope);
         }
         this._isRendering = false;
     }

@@ -11,10 +11,13 @@
     <h2>Basic demos</h2>
     <h3>Render a table</h3>
     <div id="ex01" class="example">
-        <template is="ka-tpl" id="tpl01">
+        <template is="ka-tpl" id="tpl01" debug>
             <table class="table table-bordered">
                 <tbody>
-                    <tr *for="names" [classlist.alert-secondary]="idx % 2 === 1">
+                    <tr *if="names.length === 0">
+                        <td colspan="2">No data</td>
+                    </tr>
+                    <tr *for="names" [classlist.alert-secondary]="idx % 2 === 1" *if="idx < 5">
                         <td >hello {{ idx }}</td>
                         <td><input [value]="'idx'"></td>
                     </tr>

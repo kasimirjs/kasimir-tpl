@@ -34,10 +34,29 @@ class KtHelper {
             r += `var ${__name} = $scope['${__name}'];`
         }
         let __val = null;
-        r += `__val = ${selector};`;
-        console.log(r);
-        eval(r);
+        let s = `__val = ${selector};`;
+        //console.log(r);
+        try {
+            eval(r + s);
+        } catch (e) {
+            console.error("scopeEval() failed on selector", selector);
+            throw `eval('${s}') failed: ${e}`;
+        }
         return __val;
+    }
+
+    /**
+     *  Find the first whitespaces in text and remove them from the
+     *  start of the following lines.
+     *
+     *  @param {string} str
+     *  @return {string}
+     */
+    unindentText(str) {
+        let i = str.match(/\n(\s*)/m)[1];
+        str = str.replace(new RegExp(`\n${i}`, "g"), "\n");
+        str = str.trim();
+        return str;
     }
 
 

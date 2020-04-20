@@ -41,9 +41,7 @@ class KaVal extends HTMLElement {
 
             let v = this._ktHlpr.scopeEval($scope, this._attrs.stmt);
             if (this.hasAttribute("unindent")) {
-                let i = v.match(/\n(\s*)/m)[1];
-                v = v.replace(new RegExp(`\n${i}`, "g"), "\n");
-                v = v.trim();
+                v = this._ktHlpr.unindentText(v);
             }
 
             if (this.hasAttribute("html")) {
