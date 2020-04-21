@@ -43,7 +43,53 @@ Copy 'n paste
 
 ## Usage
 
-### Access the scope
+
+### Defining a template
+
+A kasimir template is always a web-component extension of the `<template>` element.
+The benefit: `<template>`-Elements will not be rendered by default. You must specify
+the attribute `is="ka-tpl"` to make the template a kasimir template. 
+(See [WebComponents Specs](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements))
+
+```html
+<template is="ka-tpl" id="myTpl01" >..tpldata..</template>
+```
+
+You can access the template directly with 
+
+```javascript
+document.getElementById("myTpl01").$scope = {};
+```
+
+Or you use the `ka_tpl()` function to also have code-completion and verify the template:
+
+```javascript
+ka_tpl("myTpl01").$scope = {};
+```
+
+
+### Conditions
+
+```html
+<div *if="data.name === 'jens'">
+    Hello Jens
+</div>
+```
+
+### Loops
+
+```html
+<div *for="let x of data">
+    This elements value is {{ x }}
+</div>
+```
+
+**Syntax**
+
+```
+let <varName> of|in|repeat <inVar> [indexby <varname>]
+```
+
 
 ### Modify dom attributes
 
@@ -69,6 +115,12 @@ access properties:
 ```
 
 ### IF conditions
+
+
+## Element specs
+
+In this section the web components defined by kasimir tpl are 
+listed and defined.
 
 ### ka-tpl: Template
 
