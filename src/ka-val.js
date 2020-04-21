@@ -40,6 +40,9 @@ class KaVal extends HTMLElement {
         try {
 
             let v = this._ktHlpr.scopeEval($scope, this._attrs.stmt);
+            if (typeof v === "object")
+                v = JSON.stringify(v);
+
             if (this.hasAttribute("unindent")) {
                 v = this._ktHlpr.unindentText(v);
             }

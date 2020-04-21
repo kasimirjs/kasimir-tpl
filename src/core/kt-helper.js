@@ -29,17 +29,20 @@ class KtHelper {
      *
      */
     scopeEval($scope, selector) {
-        let r = "let $ = $scope;";
+        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false"];
+        let r = "";
         for (let __name in $scope) {
+            if (reserved.indexOf(__name) !== -1)
+                continue;
             r += `var ${__name} = $scope['${__name}'];`
         }
-        let __val = null;
+        var __val = null;
         let s = `__val = ${selector};`;
         //console.log(r);
         try {
             eval(r + s);
         } catch (e) {
-            console.error("scopeEval() failed on selector", selector);
+            console.error(`scopeEval('${r}${s}') failed: ${e}`);
             throw `eval('${s}') failed: ${e}`;
         }
         return __val;

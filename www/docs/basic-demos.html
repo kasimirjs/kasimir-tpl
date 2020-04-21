@@ -17,9 +17,9 @@
                     <tr *if="names.length === 0">
                         <td colspan="2">No data</td>
                     </tr>
-                    <tr *for="names" [classlist.alert-secondary]="idx % 2 === 1" *if="idx < 5">
+                    <tr *for="let name of names indexby idx" [classlist.alert-secondary]="idx % 2 === 1" *if="idx < 5">
                         <td >hello {{ idx }}</td>
-                        <td><input [value]="'idx'"></td>
+                        <td><input [value]="name.name"></td>
                     </tr>
                 </tbody>
             </table>
@@ -31,7 +31,7 @@
                 ka_tpl("tpl01").$scope = {
                     names: [
                         {name: "alfed", surname: "wasigno"},
-                        {name: "alfed", surname: "wasigno"}
+                        {name: "manni", surname: "gemini"}
                     ]
                 }
             });

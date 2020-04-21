@@ -61,7 +61,19 @@ class KtTemplateParser {
             /* @var {HTMLTemplateElement} newNode */
             let cloneNode = node.cloneNode(true);
             newNode.content.appendChild(cloneNode);
-            newNode.setAttribute("forselect", attr);
+
+            let ma = attr.match(/let\s+(\S*)\s+(in|of|repeat)\s+(\S*)(\s+indexby\s+(\S*))?/);
+            if (ma !== null) {
+                newNode.setAttribute("formode", ma[2]);
+                newNode.setAttribute("forselect", ma[3]);
+                newNode.setAttribute("fordata", ma[1]);
+                if (typeof ma[5] !== "undefined")
+                    newNode.setAttribute("foridx", ma[5]);
+            } else {
+                throw "Cannot parse *for='" + attr + "' for element " + node.outerHTML;
+            }
+
+
             node.replaceWith(newNode);
             node = cloneNode;
         }
