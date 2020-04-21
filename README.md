@@ -15,8 +15,8 @@ The Template:
 
 ```html
 <template is="ka-tpl" id="tpl01">
-    <div *for="let row of rows indexby idx" *if="idx < 20" id="tpl1">
-        <div [classlist.success]="$.row.success === true">{{ row.msg }}</div>
+    <div *for="let row of rows indexby idx" *if="idx < 20">
+        <div [classlist.success]="row.success === true">{{ row.msg }}</div>
     </div>
 </template>
 ```
@@ -33,16 +33,19 @@ ka_tpl("tpl01").$scope = data;
 
 ## Installation
 
-Use cdn
+**Use the minified version (~9k)**
+```html
+<script src="https://raw.githubusercontent.com/kasimirjs/kasimir-tpl/master/dist/kasimir-tpl-min.js"></script>
+```
 
-
-Use npm
-
-Copy 'n paste
-
+**Use the combined version with sourcemap and comments (~9k)**
+```html
+<script src="https://raw.githubusercontent.com/kasimirjs/kasimir-tpl/master/dist/kasimir-tpl.js"></script>
+```
 
 ## Usage
 
+There is no tooling necessary to define and use your templates.
 
 ### Defining a template
 
