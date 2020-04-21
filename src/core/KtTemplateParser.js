@@ -56,7 +56,7 @@ class KtTemplateParser {
         }
 
         if (node.hasAttribute("*for")) {
-            let newNode = document.createElement("template", {is: "kt-for"});
+            let newNode = document.createElement("template", {is: "ka-loop"});
             let attr = node.getAttribute("*for");
             /* @var {HTMLTemplateElement} newNode */
             let cloneNode = node.cloneNode(true);

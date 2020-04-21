@@ -1,7 +1,7 @@
 
 
 
-class KtFor extends KtRenderable {
+class KaLoop extends KtRenderable {
 
 
     constructor() {
@@ -73,11 +73,20 @@ class KtFor extends KtRenderable {
                     this._maintainNode(n, $scope);
                 }
                 break;
+
             case "of":
                 n = 0;
                 for (let i of sel) {
 
                     $scope[this._attrs.fordata] = i;
+                    this._maintainNode(n, $scope);
+                    n++;
+                }
+                break;
+
+            case "repeat":
+                for (n=0; n < sel; n++) {
+                    $scope[this._attrs.fordata] = n;
                     this._maintainNode(n, $scope);
                     n++;
                 }
@@ -98,4 +107,4 @@ class KtFor extends KtRenderable {
     }
 }
 
-customElements.define("kt-for", KtFor, {extends: "template"});
+customElements.define("ka-loop", KaLoop, {extends: "template"});

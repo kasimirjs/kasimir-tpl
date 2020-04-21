@@ -12,7 +12,7 @@
     <h3>Manual instanciation</h3>
     <div id="ex01" class="example">
         <template is="ka-tpl" id="tpl01">
-            <div *for="list" >Hello {{ name }}</div>
+            <div *for="let i of list" >Hello {{ i }}: {{ name }}</div>
         </template>
         <!-- sibling with attribute 'ka-loader' this is removed on first render -->
         <div ka-loader>Loading...</div>
