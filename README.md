@@ -14,9 +14,11 @@ A browser-side template system library. Nothing more.
 The Template:
 
 ```html
-<div *for="let $.row of $.rows index $.idx" *if="$.idx < 20" id="tpl1">
-    <div [classlist.success]="$.row.success === true">{{ $.row.msg }}</div>
-</div>
+<template is="ka-tpl" id="tpl01">
+    <div *for="let row of rows indexby idx" *if="idx < 20" id="tpl1">
+        <div [classlist.success]="$.row.success === true">{{ row.msg }}</div>
+    </div>
+</template>
 ```
 
 ```javascript
@@ -25,7 +27,7 @@ let data = {
        {success: false, msg: "failed"}
    ]
 };
-kasimir_tpl("tpl1").$ = data;
+ka_tpl("tpl01").$scope = data;
 ```
 
 
@@ -43,7 +45,28 @@ Copy 'n paste
 
 ### Access the scope
 
+### Modify dom attributes
 
+Within templates you can use javascript expressions to set attributes, css-classes and directly
+access properties:
+
+| Binding | Description |
+|---------|-------------|
+| `[attrName]`      | Set a dom attribute     |
+| `[.cssClassName]` | Set/Unset css class     |
+| `(property)`      | Set a property          |
+
+**Set attributes**
+
+```html
+<input [value]="expression">
+```
+
+**Set css classes**
+
+```html
+<div [classlist.<classname>]="(bool)expression">
+```
 
 ### IF conditions
 
@@ -53,7 +76,7 @@ Defines a template.
 
 ```html
 <template is="ka-tpl"
-    [auto]
+    [auto="function(this)"]
     [afterrender="function(this)"]
     [debug]
 >
@@ -69,7 +92,7 @@ Defines a template.
 | `debug`           | Output log messages to console.log() for this element |
 
 
-### ka-val: Value Injection
+### ka-val: Print a value
 
 ```html
 <ka-val 
@@ -87,3 +110,6 @@ Defines a template.
 | `afterrender`     | Run code after the element was rendered |
 
 
+**Example**
+
+Print a value loaded 
