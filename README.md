@@ -38,7 +38,7 @@ ka_tpl("tpl01").$scope = data;
 <script src="https://raw.githubusercontent.com/kasimirjs/kasimir-tpl/master/dist/kasimir-tpl-min.js"></script>
 ```
 
-**Use the combined version with sourcemap and comments (~9k)**
+**Use the combined version with sourcemap and comments (~90k)**
 ```html
 <script src="https://raw.githubusercontent.com/kasimirjs/kasimir-tpl/master/dist/kasimir-tpl.js"></script>
 ```
