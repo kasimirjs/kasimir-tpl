@@ -5,16 +5,16 @@ class KaInclude extends KtRenderable {
 
     constructor() {
         super();
-        this.elements = null;
         this._attrs = {
             "src": null,
             "auto": null,
-            "raw": null
+            "raw": null,
+            "debug": false
         }
     }
 
     static get observedAttributes() {
-        return ["src"];
+        return ["src", "debug", "auto", "raw"];
     }
 
 
