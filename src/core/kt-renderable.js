@@ -40,7 +40,10 @@ class KtRenderable extends HTMLTemplateElement {
     }
 
     _log(v1, v2, v3) {
-        let a = arguments;
+        let a = [ this.constructor.name + "#" + this.id + "[" + this._ktId + "]:"];
+
+        for (let e of arguments)
+            a.push(e);
 
         if (this._attrs.debug !== false)
             console.log.apply(this, a);
@@ -100,7 +103,6 @@ class KtRenderable extends HTMLTemplateElement {
 
         let cn = this.content.cloneNode(true);
         this._els = [];
-        this._log(cn.children);
         for (let cel of cn.children) {
             cel._kaMb = this._ktId;
             this._els.push(cel);

@@ -28,15 +28,26 @@ class KaTpl extends KtRenderable {
     }
 
     connectedCallback() {
+        this._log("connectedCallback()", this);
         let auto = this.getAttribute("auto")
         if (auto !== null) {
-            document.addEventListener("DOMContentLoaded", () => {
+            this._log("autostart: _init()", "document.readyState: ", document.readyState);
+
+            let init = () => {
                 this._init();
                 if (auto === "")
-                    this.render(this._scope)
+                    this.render(this._scope);
                 else
                     eval(auto);
-            });
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", () => {
+                    init();
+                })
+            } else {
+                init();
+            }
         }
     }
 

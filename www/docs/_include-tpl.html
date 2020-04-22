@@ -1,0 +1,17 @@
+<template is="ka-tpl" id="" debug auto>
+
+    <div>
+        Time: {{ time }}
+    </div>
+    <script>
+    // this
+    ((self) => {
+        self.$scope = {"time": "init value"};
+        console.log("start init", self);
+        window.setInterval(() => {
+            self.$scope.time = (new Date).toLocaleString();
+        } , 1000);
+
+    })(KASELF);
+    </script>
+</template>

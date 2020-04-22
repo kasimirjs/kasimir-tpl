@@ -18,6 +18,31 @@ class KaInclude extends KtRenderable {
     }
 
 
+    /**
+     * <script> tags that were loaded via ajax won't be executed
+     * when added to dom.
+     *
+     * Therefore we have to rewrite them. This method does this
+     * automatically both for normal and for template (content) nodes.
+     *
+     * @param node
+     * @private
+     */
+    _importScritpRecursive(node) {
+        let chels = node instanceof HTMLTemplateElement ? node.content.childNodes : node.childNodes;
+
+        for (let s of chels) {
+            if (s.tagName !== "SCRIPT") {
+                this._importScritpRecursive(s);
+                continue;
+            }
+            let n = document.createElement("script");
+            n.innerHTML = s.innerHTML;
+            s.replaceWith(n);
+        }
+    }
+
+
     _loadDataRemote() {
         let xhttp = new XMLHttpRequest();
 
@@ -33,7 +58,15 @@ class KaInclude extends KtRenderable {
                     let p = new KtTemplateParser();
                     p.parseRecursive(this.content);
                 }
+
+                // Nodes loaded from remote won't get executed. So import them.
+                this._importScritpRecursive(this.content);
+
                 this._appendElementsToParent();
+                for (let el of this._els) {
+                    this._log("trigger DOMContentLoaded event on", el);
+                    el.dispatchEvent(new Event("DOMContentLoaded"));
+                }
                 return;
             }
 
@@ -50,9 +83,13 @@ class KaInclude extends KtRenderable {
     connectedCallback() {
         let auto = this.getAttribute("auto");
         if (auto !== null) {
-            document.addEventListener("DOMContentLoaded", () => {
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", () => {
+                    this._loadDataRemote();
+                });
+            } else {
                 this._loadDataRemote();
-            });
+            }
         }
     }
 
