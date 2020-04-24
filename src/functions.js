@@ -44,10 +44,10 @@ var KT_FN = {
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
                 continue;
-            if (classes[className] !== null) {
+            if (classes[className] !== null && classes[className] !== false) {
                 elem.setAttribute(className, classes[className]);
             } else {
-                elem.setAttribute(className, "");
+                elem.removeAttribute(className);
             }
         }
     }
