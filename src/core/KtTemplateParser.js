@@ -37,6 +37,8 @@ class KtTemplateParser {
             return;
         }
 
+        if (node.tagName === "SCRIPT")
+            return; // Don't parse beween <script></script> tags
 
         if (typeof node.getAttribute !== "function")
             return;
@@ -69,10 +71,12 @@ class KtTemplateParser {
                 newNode.setAttribute("fordata", ma[1]);
                 if (typeof ma[5] !== "undefined")
                     newNode.setAttribute("foridx", ma[5]);
+                if (node.hasAttribute("*foreval")) {
+                    newNode.setAttribute("foreval", node.getAttribute("*foreval"));
+                }
             } else {
                 throw "Cannot parse *for='" + attr + "' for element " + node.outerHTML;
             }
-
 
             node.replaceWith(newNode);
             node = cloneNode;

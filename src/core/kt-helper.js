@@ -5,16 +5,22 @@ class KtHelper {
     /**
      *
      * @param {string} stmt
-     * @param {context} c
+     * @param {context} $scope
      * @param {HTMLElement} e
      * @return {any}
      */
-    keval(stmt, c, e) {
+    keval(stmt, $scope, e) {
+        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false"];
+        let r = "";
+        for (let __name in $scope) {
+            if (reserved.indexOf(__name) !== -1)
+                continue;
+            r += `var ${__name} = $scope['${__name}'];`
+        }
         try {
-            let $ = c;
-            return eval(stmt)
+            return eval(r + stmt)
         } catch (ex) {
-            console.warn("cannot eval() stmt: '" + stmt + "' on element ", e.outerHTML, "(context:", c, ")");
+            console.warn("cannot eval() stmt: '" + stmt + "': " + ex + " on element ", e.outerHTML, "(context:", $scope, ")");
             throw "eval('" + stmt + "') failed: " + ex;
         }
     }

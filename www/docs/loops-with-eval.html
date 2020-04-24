@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Templates :: Template instanciation</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Loops</h2>
+    <h3>for/in loop</h3>
+    <div id="ex01" class="example">
+        <template is="ka-tpl" id="tpl01" auto="">
+            <script>
+                ((self) => {
+                    self.$scope.customFn = (input) => {
+                        return "output from customFn(" + input + ")";
+                    };
+                    self.$scope.names = ['alfred', 'werner'];
+
+                })(KASELF);
+            </script>
+            <tr *for="let idx in names" *foreval="$scope.data = $scope.customFn(idx)">
+                <td >Row {{ idx }}: {{ names[idx] }} {{ data }}</td>
+            </tr>
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+   <h3>for/of loop</h3>
+    <div id="ex02" class="example">
+        <template is="ka-tpl" id="tpl02" auto="this.$scope = {names: ['alfred', 'werner']}">
+            <tr *for="let name of names indexby idx">
+                <td >hello {{ parseInt(idx) + 1 }}: {{ name }}</td>
+            </tr>
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex02').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+</body>
+</html>

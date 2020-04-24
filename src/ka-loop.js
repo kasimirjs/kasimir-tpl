@@ -61,6 +61,12 @@ class KaLoop extends KtRenderable {
             throw "Invalid forSelect selector. see waring."
         }
 
+        if (sel === null || typeof sel[Symbol.iterator] !== "function") {
+            this._log(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this.outerHTML);
+            console.warn(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this.outerHTML)
+            return;
+        }
+
         if (this._origSibling === false)
             this._origSibling = this.nextSibling;
 
