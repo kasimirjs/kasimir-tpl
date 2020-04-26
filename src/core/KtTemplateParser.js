@@ -95,6 +95,7 @@ class KtTemplateParser {
 
         let cssClasses = [];
         let attrs = [];
+        let events = {};
 
         let regex = new RegExp("^\\[(.+)\\]$");
         for(let attrName of node.getAttributeNames()) {
@@ -111,21 +112,27 @@ class KtTemplateParser {
                     case "classlist":
                         cssClasses.push(`'${split[1]}': ` + node.getAttribute(attrName));
                         break;
+                    case "on":
+                        events[split[1]] = node.getAttribute(attrName);
+                        break;
+
                     default:
                         console.warn("Invalid attribute '" + attrName + "'")
                 }
             }
         }
 
-        if (attrs.length > 0 || cssClasses.length > 0) {
+        if (attrs.length > 0 || cssClasses.length > 0 || events !== {}) {
             let newNode = document.createElement("template", {is: "kt-maintain"});
             /* @var {HTMLTemplateElement} newNode */
-            let cloneNode = node.cloneNode(true)
+            let cloneNode = node.cloneNode(true);
             newNode.content.appendChild(cloneNode);
             if (attrs.length > 0)
                 cloneNode.setAttribute("kt-attrs", "{" + attrs.join(",") +  "}");
             if (cssClasses.length > 0)
                 cloneNode.setAttribute("kt-classes", "{" + cssClasses.join(",") + "}");
+            if (events !== {})
+                cloneNode.setAttribute("kt-on", JSON.stringify(events));
             node.replaceWith(newNode);
             node = cloneNode;
         }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Templates :: Events</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Events</h2>
+    <h3>for/in loop</h3>
+    <div id="ex01" class="example">
+        <template is="ka-tpl" id="tpl01" auto="this.$scope = {names: ['alfred', 'werner']}">
+            <tr *for="let name of names indexby idx">
+                <td >Row {{ idx }}: {{ names[idx] }} <a href="" [on.click]="alert(idx + ': ' + name);">click</a></td>
+            </tr>
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+</body>
+</html>

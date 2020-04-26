@@ -16,7 +16,7 @@ The Template:
 ```html
 <template is="ka-tpl" id="tpl01">
     <div *for="let row of rows indexby idx" *if="idx < 20">
-        <div [classlist.success]="row.success === true">{{ row.msg }}</div>
+        <div [classlist.success]="row.success === true">{{ row.msg }} <a href="" [on.click]="alert(`click ${idx}: ${row.msg}`);">info</a></div>
     </div>
 </template>
 ```
@@ -91,6 +91,15 @@ ka_tpl("myTpl01").$scope = {};
 
 ```
 let <varName> of|in|repeat <inVar> [indexby <varname>]
+```
+
+### Events
+
+You can register events on every node. The base node will be cloned
+and made available to the node also inside loops.
+
+```html
+<a href="" [on.click]="alert()">click me</a>
 ```
 
 

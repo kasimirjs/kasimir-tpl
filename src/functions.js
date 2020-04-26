@@ -38,8 +38,7 @@ var KT_FN = {
     },
 
     "kt-attrs": function (elem, val, scope) {
-        let $ = scope;
-        let kthelper = new KtHelper();
+
         let classes = kthelper.scopeEval(scope, val);
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
@@ -50,5 +49,20 @@ var KT_FN = {
                 elem.removeAttribute(className);
             }
         }
+    },
+    "kt-on": function (elem, val, $scope) {
+        let kthelper = new KtHelper();
+
+        // Clone the first layer of the scope so it can be evaluated on event
+        let saveScope = {...$scope};
+
+        let events = JSON.parse(val);
+        for (let event in events) {
+            elem["on" + event] = (e) => {
+                kthelper.keval(events[event], saveScope, elem);
+                return false;
+            }
+        }
+
     }
 };
