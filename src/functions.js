@@ -38,7 +38,7 @@ var KT_FN = {
     },
 
     "kt-attrs": function (elem, val, scope) {
-
+        let kthelper = new KtHelper();
         let classes = kthelper.scopeEval(scope, val);
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
