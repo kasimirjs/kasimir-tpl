@@ -23,7 +23,7 @@ function css() {
         .pipe(dest('dist'))
 }
 
-var licence = fs.readFileSync("LICENSE");
+var licence = fs.readFileSync("LICENSE.header");
 
 function js() {
     return src('src/**/*.js', { sourcemaps: true })
