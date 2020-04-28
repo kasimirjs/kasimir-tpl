@@ -79,7 +79,7 @@ class KaTpl extends KtRenderable {
                 return true;
             },
             get: (target, key) => {
-                if (typeof target[key] === "object")
+                if (typeof target[key] === "object" && target[key] !== null)
                     return new Proxy(target[key], handler);
                 return target[key];
             }
