@@ -8,7 +8,7 @@
 </head>
 <body class="container">
 
-    <h2>Setting element style</h2>
+    <h2>Setting element style / css classes</h2>
     <h3>[style.xy]</h3>
     <div id="ex01" class="example">
         <template is="ka-tpl" id="tpl01" debug auto="">
@@ -24,6 +24,24 @@
         </template>
     </div>
     <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <h3>[classlist.xy]</h3>
+    <div id="ex02" class="example">
+        <template is="ka-tpl" debug auto="">
+            <script>
+                ((self) => {
+                    self.$scope.isOn = false;
+                })(KASELF);
+            </script>
+
+            <p [classlist.text-success]="isOn">Hello world!</p>
+            <p [classlist.]="{'text-success': ! isOn, 'text-warning': isOn}">Hello world!</p>
+            <button [on.click]="$scope.isOn = !$scope.isOn" class="btn btn-primary">toggle</button>
+
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex02').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
 
 
     <script type="application/javascript" src="/dist/w3codecolor.js"></script>

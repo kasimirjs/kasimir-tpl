@@ -94,6 +94,7 @@ class KtTemplateParser {
         }
 
         let cssClasses = [];
+        let ktClasses = null;
         let attrs = [];
         let events = {};
         let styles = [];
@@ -111,6 +112,11 @@ class KtTemplateParser {
             } else {
                 switch (split[0]) {
                     case "classlist":
+                        if (split[1] === "") {
+                            ktClasses = node.getAttribute(attrName);
+                            continue;
+                        }
+
                         cssClasses.push(`'${split[1]}': ` + node.getAttribute(attrName));
                         break;
 
@@ -128,20 +134,25 @@ class KtTemplateParser {
             }
         }
 
-        if (attrs.length > 0 || cssClasses.length > 0 || Object.keys(events).length > 0 || styles.length > 0) {
+        if (attrs.length > 0 || cssClasses.length > 0 || ktClasses !== null || Object.keys(events).length > 0 || styles.length > 0) {
             let newNode = document.createElement("template", {is: "kt-maintain"});
             /* @var {HTMLTemplateElement} newNode */
             let cloneNode = node.cloneNode(true);
             newNode.content.appendChild(cloneNode);
 
+
             if (attrs.length > 0)
-                cloneNode.setAttribute("kt-attrs", "{" + attrs.join(",") +  "}");
+                cloneNode.setAttribute("kt-attrs", "{" + attrs.join(",") + "}");
 
             if (styles.length > 0)
-                cloneNode.setAttribute("kt-styles", "{" + styles.join(",") +  "}");
+                cloneNode.setAttribute("kt-styles", "{" + styles.join(",") + "}");
 
-            if (cssClasses.length > 0)
+            if (ktClasses !== null) {
+                // include [classlist.]="{class: cond}"
+                cloneNode.setAttribute("kt-classes", ktClasses);
+            } else if (cssClasses.length > 0) {
                 cloneNode.setAttribute("kt-classes", "{" + cssClasses.join(",") + "}");
+            }
 
             if (Object.keys(events).length > 0)
                 cloneNode.setAttribute("kt-on", JSON.stringify(events));

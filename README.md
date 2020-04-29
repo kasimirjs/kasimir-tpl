@@ -108,6 +108,10 @@ and made available to the node also inside loops.
 <a href="" [classlist.className1]="name === 'someValue'">click me</a>
 ```
 
+```html
+<a href="" [classlist.]="{'text-success': name === 'someValue', 'text-danger': name !== 'someValue'}">click me</a>
+```
+
 ### CSS Styles
 
 ```html
