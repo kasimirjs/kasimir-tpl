@@ -37,6 +37,28 @@ var KT_FN = {
         }
     },
 
+    /**
+     *
+     * @param {HTMLElement} elem
+     * @param {string} val
+     * @param scope
+     */
+    "kt-styles": function(elem, val, scope) {
+        "use strict";
+
+        let kthelper = new KtHelper();
+        let styles = kthelper.scopeEval(scope, val);
+        for (let styleName in styles) {
+            if ( ! styles.hasOwnProperty(styleName))
+                continue;
+            if (styles[styleName] === null) {
+                elem.style.removeProperty(styleName);
+            } else {
+                elem.style.setProperty(styleName, styles[styleName]);
+            }
+        }
+    },
+
     "kt-attrs": function (elem, val, scope) {
         let kthelper = new KtHelper();
         let classes = kthelper.scopeEval(scope, val);

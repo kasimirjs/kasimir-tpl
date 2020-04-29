@@ -102,6 +102,17 @@ and made available to the node also inside loops.
 <a href="" [on.click]="alert()">click me</a>
 ```
 
+### CSS Classes
+
+```html
+<a href="" [classlist.className1]="name === 'someValue'">click me</a>
+```
+
+### CSS Styles
+
+```html
+<a href="" [style.text-size]="textSize">click me</a>
+```
 
 ### Modify dom attributes
 

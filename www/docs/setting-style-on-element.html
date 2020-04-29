@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Templates :: Element style</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Setting element style</h2>
+    <h3>[style.xy]</h3>
+    <div id="ex01" class="example">
+        <template is="ka-tpl" id="tpl01" debug auto="">
+            <script>
+                ((self) => {
+                    self.$scope.textSize = 20;
+                })(KASELF);
+            </script>
+
+            <p [style.font-size]="textSize + 'px'">Hello world!</p>
+            <button [on.click]="$scope.textSize++" class="btn btn-primary">+</button>
+            <button [on.click]="$scope.textSize--" class="btn btn-primary">-</button>
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+</body>
+</html>

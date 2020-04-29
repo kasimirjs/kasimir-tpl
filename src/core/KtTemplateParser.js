@@ -96,6 +96,7 @@ class KtTemplateParser {
         let cssClasses = [];
         let attrs = [];
         let events = {};
+        let styles = [];
 
         let regex = new RegExp("^\\[(.+)\\]$");
         for(let attrName of node.getAttributeNames()) {
@@ -112,8 +113,13 @@ class KtTemplateParser {
                     case "classlist":
                         cssClasses.push(`'${split[1]}': ` + node.getAttribute(attrName));
                         break;
+
                     case "on":
                         events[split[1]] = node.getAttribute(attrName);
+                        break;
+
+                    case "style":
+                        styles.push(`'${split[1]}': ` + node.getAttribute(attrName));
                         break;
 
                     default:
@@ -122,17 +128,24 @@ class KtTemplateParser {
             }
         }
 
-        if (attrs.length > 0 || cssClasses.length > 0 || Object.keys(events).length > 0) {
+        if (attrs.length > 0 || cssClasses.length > 0 || Object.keys(events).length > 0 || styles.length > 0) {
             let newNode = document.createElement("template", {is: "kt-maintain"});
             /* @var {HTMLTemplateElement} newNode */
             let cloneNode = node.cloneNode(true);
             newNode.content.appendChild(cloneNode);
+
             if (attrs.length > 0)
                 cloneNode.setAttribute("kt-attrs", "{" + attrs.join(",") +  "}");
+
+            if (styles.length > 0)
+                cloneNode.setAttribute("kt-styles", "{" + styles.join(",") +  "}");
+
             if (cssClasses.length > 0)
                 cloneNode.setAttribute("kt-classes", "{" + cssClasses.join(",") + "}");
+
             if (Object.keys(events).length > 0)
                 cloneNode.setAttribute("kt-on", JSON.stringify(events));
+
             node.replaceWith(newNode);
             node = cloneNode;
         }
