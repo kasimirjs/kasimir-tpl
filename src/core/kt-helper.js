@@ -5,17 +5,22 @@ class KtHelper {
     /**
      *
      * @param {string} stmt
-     * @param {context} $scope
+     * @param {context} __scope
      * @param {HTMLElement} e
      * @return {any}
      */
-    keval(stmt, $scope, e) {
+    keval(stmt, __scope, e) {
         const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false"];
         let r = "";
-        for (let __name in $scope) {
+        for (let __name in __scope) {
             if (reserved.indexOf(__name) !== -1)
                 continue;
-            r += `var ${__name} = $scope['${__name}'];`
+            r += `var ${__name} = __scope['${__name}'];`
+        }
+        // If the scope was cloned, the original will be in $scope. This is important when
+        // Using events [on.click], e.g.
+        if (typeof __scope.$scope === "undefined") {
+            r += "var $scope = __scope;";
         }
         try {
             return eval(r + stmt)

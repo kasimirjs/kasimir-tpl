@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Templates :: Template instanciation</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Self changing elements</h2>
+    <h3>for/in loop</h3>
+    <div id="ex01" class="example">
+        <template is="ka-tpl" id="tpl01" auto="">
+            <script>
+                ((self) => {
+                    self.$scope.active = 'alfred';
+                    self.$scope.names = ['alfred', 'werner'];
+
+                })(KASELF);
+            </script>
+            <tr *for="let idx in names">
+                <td >Row {{ idx }}: {{ names[idx] }} <a href="#" [on.click]="$scope.active = names[idx]">select</a></td>
+            </tr>
+            <tr>
+                <td >active: {{ active }}</td>
+            </tr>
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+</body>
+</html>

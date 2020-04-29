@@ -36,7 +36,7 @@ class KaTpl extends KtRenderable {
             let init = () => {
                 this._init();
                 if (auto === "")
-                    this.render(this._scope);
+                    this.render(this.$scope);
                 else
                     eval(auto);
             };
@@ -110,6 +110,8 @@ class KaTpl extends KtRenderable {
     }
 
     render($scope) {
+        if (typeof $scope === "undefined")
+            $scope = this.$scope;
         this._log("render($scope= ", $scope, ")");
         this._init();
         this._isRendering = true;
