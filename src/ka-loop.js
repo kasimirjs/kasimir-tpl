@@ -56,15 +56,24 @@ class KaLoop extends KtRenderable {
         let _a_sel = this._attrs.forselect;
         let sel = this._hlpr.scopeEval($scope, _a_sel);
 
-        if (typeof sel !== "object") {
-            console.warn(`Invalid forSelect="${_a_sel}" returned:`, select, "on context", context, "(Element: ", this.outerHTML, ")");
-            throw "Invalid forSelect selector. see waring."
-        }
+        if (this._attrs.formode !== "repeat") {
 
-        if (sel === null || typeof sel[Symbol.iterator] !== "function") {
-            this._log(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this.outerHTML);
-            console.warn(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this.outerHTML)
-            return;
+            if (typeof sel !== "object") {
+                console.warn(`Invalid forSelect="${_a_sel}" returned:`, sel, "on context", context, "(Element: ", this, ")");
+                throw "Invalid forSelect selector. see waring."
+            }
+
+            if (sel === null || typeof sel[Symbol.iterator] !== "function") {
+                this._log(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this);
+                console.warn(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this)
+                return;
+            }
+        } else {
+            if (typeof sel !== "number") {
+                this._log(`Selector '${_a_sel}' in for statement is a number. Returned value: `, sel, "in", this);
+                console.warn(`Selector '${_a_sel}' in for statement is a number. Returned value: `, sel, "in", this)
+                return;
+            }
         }
 
         if (this._origSibling === false)
@@ -94,7 +103,6 @@ class KaLoop extends KtRenderable {
                 for (n=0; n < sel; n++) {
                     $scope[this._attrs.fordata] = n;
                     this._maintainNode(n, $scope);
-                    n++;
                 }
                 break;
             default:

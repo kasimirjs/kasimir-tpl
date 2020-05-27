@@ -20,7 +20,7 @@
     <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
 
 
-   <h3>for/of loop</h3>
+    <h3>for/of loop</h3>
     <div id="ex02" class="example">
         <template is="ka-tpl" id="tpl02" auto="this.$scope = {names: ['alfred', 'werner']}">
             <tr *for="let name of names indexby idx">
@@ -29,6 +29,16 @@
         </template>
     </div>
     <pre class="code"><ka-val stmt="document.getElementById('ex02').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+    <h3>repeat loop</h3>
+    <div id="ex03" class="example">
+        <template is="ka-tpl" id="tpl03" auto="this.$scope = {names: ['alfred', 'werner']}">
+            <tr *for="let i repeat 3">
+                <td >hello {{ i }}</td>
+            </tr>
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex03').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
 
 
     <script type="application/javascript" src="/dist/w3codecolor.js"></script>
