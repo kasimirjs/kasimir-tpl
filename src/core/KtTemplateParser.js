@@ -161,6 +161,8 @@ class KtTemplateParser {
             node = cloneNode;
         }
 
+
+
         for (let curNode of node.children)
             this.parseRecursive(curNode);
 

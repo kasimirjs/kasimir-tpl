@@ -9,7 +9,7 @@ class KtHelper {
      * @param {HTMLElement} e
      * @return {any}
      */
-    keval(stmt, __scope, e) {
+    keval(stmt, __scope, e, __refs) {
         const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false"];
         let r = "";
         for (let __name in __scope) {
@@ -25,7 +25,7 @@ class KtHelper {
         try {
             return eval(r + stmt)
         } catch (ex) {
-            console.warn("cannot eval() stmt: '" + stmt + "': " + ex + " on element ", e.outerHTML, "(context:", $scope, ")");
+            console.error("cannot eval() stmt: '" + stmt + "': " + ex + " on element ", e, "(context:", __scope, ")");
             throw "eval('" + stmt + "') failed: " + ex;
         }
     }

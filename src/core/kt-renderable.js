@@ -65,6 +65,10 @@ class KtRenderable extends HTMLTemplateElement {
         if (node.hasOwnProperty("_kaMb") && node._kaMb !== this._ktId)
             return;
 
+        // Register references
+        if (node instanceof HTMLElement && node.hasAttribute("*ref")) {
+            $scope.$ref[node.getAttribute("*ref")] = node;
+        }
 
         if (typeof node.render === "function") {
             node.render($scope);

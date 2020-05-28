@@ -14,7 +14,8 @@ class KaTpl extends KtRenderable {
         // Switched to to during _init() to allow <script> to set scope without rendering.
         this._isInitializing = false;
         this._isRendering = false;
-        this._scope = {};
+        this._refs = {};
+        this._scope = {"$ref":this._refs};
     }
 
     static get observedAttributes() {
@@ -62,6 +63,7 @@ class KaTpl extends KtRenderable {
      */
     set $scope(val) {
         this._scope = val;
+        this._scope.$ref = this._refs;
 
         // Render only if dom available (allow <script> inside template to set scope before first rendering
         if ( ! this._isInitializing)
@@ -79,6 +81,8 @@ class KaTpl extends KtRenderable {
                 return true;
             },
             get: (target, key) => {
+                if (key === "$ref")
+                    return this._refs;
                 if (typeof target[key] === "object" && target[key] !== null)
                     return new Proxy(target[key], handler);
                 return target[key];
@@ -100,11 +104,14 @@ class KaTpl extends KtRenderable {
                 this.parentElement.removeChild(this.nextElementSibling);
         }
         let sibling = this.nextSibling;
+
         (new KtTemplateParser).parseRecursive(this.content);
 
         KASELF = this;
-        if (this._els === null)
+        if (this._els === null) {
             this._appendElementsToParent();
+
+        }
 
         this._isInitializing = false;
     }

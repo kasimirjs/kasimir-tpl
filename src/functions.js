@@ -78,6 +78,7 @@ var KT_FN = {
         // Clone the first layer of the scope so it can be evaluated on event
         let saveScope = {...$scope};
         saveScope.$scope = $scope;
+        //saveScope.$ref = $scope.$ref;
 
         let events = JSON.parse(val);
         for (let event in events) {
