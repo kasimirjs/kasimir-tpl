@@ -39,7 +39,7 @@ class KtHelper {
      * @return {string}
      *
      */
-    scopeEval($scope, selector) {
+    scopeEval($scope, selector, elem) {
         const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false"];
         let r = "";
         for (let __name in $scope) {
@@ -53,7 +53,7 @@ class KtHelper {
         try {
             eval(r + s);
         } catch (e) {
-            console.error(`scopeEval('${r}${s}') failed: ${e}`);
+            console.error(`scopeEval('${s}') failed: ${e} on`, elem);
             throw `eval('${s}') failed: ${e}`;
         }
         return __val;

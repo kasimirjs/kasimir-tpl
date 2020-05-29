@@ -54,7 +54,7 @@ class KaLoop extends KtRenderable {
 
     render($scope) {
         let _a_sel = this._attrs.forselect;
-        let sel = this._hlpr.scopeEval($scope, _a_sel);
+        let sel = this._hlpr.scopeEval($scope, _a_sel, this);
 
         if (this._attrs.formode !== "repeat") {
 
@@ -63,7 +63,7 @@ class KaLoop extends KtRenderable {
                 throw "Invalid forSelect selector. see waring."
             }
 
-            if (sel === null || typeof sel[Symbol.iterator] !== "function") {
+            if (sel === null || (typeof sel[Symbol.iterator] !== "function" && typeof sel !== 'object') ) {
                 this._log(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this);
                 console.warn(`Selector '${_a_sel}' in for statement is not iterable. Returned value: `, sel, "in", this)
                 return;
@@ -83,9 +83,11 @@ class KaLoop extends KtRenderable {
         let n = 0;
         switch (this._attrs.formode) {
             case "in":
-                for(n in sel) {
-                    $scope[this._attrs.fordata] = n;
+                n = 0;
+                for(let i in sel) {
+                    $scope[this._attrs.fordata] = i;
                     this._maintainNode(n, $scope);
+                    n++;
                 }
                 break;
 

@@ -82,6 +82,7 @@ class KtTemplateParser {
             node = cloneNode;
         }
 
+        // If runs after *for (to filter for values)
         if (node.hasAttribute("*if")) {
             let newNode = document.createElement("template", {is: "kt-if"});
             let attr = node.getAttribute("*if");
