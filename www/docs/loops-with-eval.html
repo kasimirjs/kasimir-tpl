@@ -14,14 +14,18 @@
         <template is="ka-tpl" id="tpl01" auto="">
             <script>
                 ((self) => {
-                    self.$scope.customFn = (input) => {
-                        return "output from customFn(" + input + ")";
-                    };
-                    self.$scope.names = ['alfred', 'werner'];
+                    let $scope = self.scopeInit({
+                        names: ['alfred', 'werner'],
+                        $fn: {
+                            customFn: (input) => {
+                                return "output from customFn(" + input + ")";
+                            }
+                        }
+                    })
 
                 })(KaTpl.self);
             </script>
-            <tr *for="let idx in names" *foreval="$scope.data = $scope.customFn(idx)">
+            <tr *for="let idx in names" *foreval="$scope.data = $fn.customFn(idx)">
                 <td >Row {{ idx }}: {{ names[idx] }} {{ data }}</td>
             </tr>
         </template>

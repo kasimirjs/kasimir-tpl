@@ -9,13 +9,24 @@
 <body class="container">
 
     <h2>Basic demos</h2>
-    <h3>Render a table</h3>
+    <h3>Calling functions from outside</h3>
     <div id="ex01" class="example">
         <template is="ka-tpl" id="tpl01" debug auto>
-            <input type="text" *ref="input1" >
-            <button class="btn btn-primary" [on.click]="$ref.input1.value = 'Button A';">A</button>
-            <button class="btn btn-primary" [on.click]="$ref.input1.value = 'Yeah B'">B</button>
+            <script>
+                ((self)=>{
+                    let $scope = self.scopeInit({
+                        name: null,
+                        $fn: {
+                            sayHello: (name) => {
+                                $scope.name = name;
+                            }
+                        }
+                    })
+                })(KaTpl.self);
+            </script>
+            <p>{{ name }}</p>
         </template>
+        <button onclick="ka_tpl('tpl01').$fn.sayHello('Chris')">Click me</button>
     </div>
     <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
 

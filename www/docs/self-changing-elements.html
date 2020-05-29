@@ -14,9 +14,10 @@
         <template is="ka-tpl" id="tpl01" auto="">
             <script>
                 ((self) => {
-                    self.$scope.active = 'alfred';
-                    self.$scope.names = ['alfred', 'werner'];
-
+                    self.scopeInit({
+                        active: 'alfred',
+                        names: ['alfred', 'werner']
+                    })
                 })(KaTpl.self);
             </script>
             <tr *for="let idx in names">

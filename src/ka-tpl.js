@@ -8,7 +8,8 @@ class KaTpl extends KtRenderable {
         this._attrs = {
             "debug": false,
             "stmt": null,
-            "afterrender": null
+            "afterrender": null,
+            "nodebounce": false
         };
 
         // Switched to to during _init() to allow <script> to set scope without rendering.
@@ -16,6 +17,7 @@ class KaTpl extends KtRenderable {
         this._isRendering = false;
         this._refs = {};
         this._scope = {"$ref":this._refs};
+        this.__debounceTimeout = null;
     }
 
     /**
@@ -86,8 +88,21 @@ class KaTpl extends KtRenderable {
                 //console.log ("set:", target, property, value);
                 target[property] = value;
                 // Don't update proxy during rendering (recursion)
-                if ( ! this._isRendering)
-                    this.render(this.$scope);
+                if ( ! this._isRendering) {
+                    if (this._attrs.nodebounce === false) {
+                        // Default behaviour: Debounce: So you can do multiple $scope updated with rending only once
+                        if (this.__debounceTimeout !== null) {
+                            window.clearTimeout(this.__debounceTimeout);
+                            this.__debounceTimeout = null;
+                        }
+                        this.__debounceTimeout = window.setTimeout(() => {
+                            this.render(this.$scope);
+                        }, 10);
+                    } else {
+                        this.render(this.$scope);
+                    }
+
+                }
                 return true;
             },
             get: (target, key) => {
@@ -100,6 +115,47 @@ class KaTpl extends KtRenderable {
 
         };
         return new Proxy(this._scope, handler);
+    }
+
+    /**
+     * Execute custom functions from outside the template
+     *
+     * <example>
+     *     ka_tpl("tpl1").$fn.doSomething();
+     * </example>
+     *
+     * @return {{customFn: (function(*): string)}|{}}
+     */
+    get $fn () {
+        return this.$scope.$fn;
+    }
+
+    /**
+     * Initialize the scope. Will return the proxied scope object.
+     *
+     * The proxy keeps track about changes to $scope and rerenders the
+     * data then.
+     *
+     * So you can use the return value within the scope definition itself.
+     *
+     * <example>
+     * let $scope = KaTpl.self.scopeInit({
+     *     someData: [],
+     *
+     *     $fn: {
+     *         update: () => {
+     *             $scope.someData.push("Item")
+     *         }
+     *     }
+     * });
+     * </example>
+     *
+     * @param {{$fn:{}}} $scope
+     * @return {Proxy<{}>}
+     */
+    scopeInit($scope) {
+        this.$scope = $scope;
+        return this.$scope; // <- Query scope over getter to receive proxy
     }
 
 
