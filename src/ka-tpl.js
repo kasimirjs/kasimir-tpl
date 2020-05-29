@@ -18,6 +18,16 @@ class KaTpl extends KtRenderable {
         this._scope = {"$ref":this._refs};
     }
 
+    /**
+     * Refer to the current template (should be used by <script> inside a template to reference the
+     * current template
+     *
+     * @type {KaTpl}
+     */
+    static get self() {
+        return KaTpl.prototype.self;
+    }
+
     static get observedAttributes() {
         return ["stmt", "debug"];
     }
@@ -107,7 +117,10 @@ class KaTpl extends KtRenderable {
 
         (new KtTemplateParser).parseRecursive(this.content);
 
+        // Register self reference (see: KaTpl.self)
         KASELF = this;
+        KaTpl.prototype.self = this;
+
         if (this._els === null) {
             this._appendElementsToParent();
 

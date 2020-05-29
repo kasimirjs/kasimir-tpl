@@ -17,7 +17,7 @@
                     self.$scope.active = 'alfred';
                     self.$scope.names = ['alfred', 'werner'];
 
-                })(KASELF);
+                })(KaTpl.self);
             </script>
             <tr *for="let idx in names">
                 <td >Row {{ idx }}: {{ names[idx] }} <a href="#" [on.click]="$scope.active = names[idx]">select</a></td>

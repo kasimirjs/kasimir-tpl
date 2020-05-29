@@ -15,7 +15,7 @@
             <script>
                 ((self) => {
                     self.$scope.textSize = 20;
-                })(KASELF);
+                })(KaTpl.self);
             </script>
 
             <p [style.font-size]="textSize + 'px'">Hello world!</p>
@@ -32,7 +32,7 @@
             <script>
                 ((self) => {
                     self.$scope.isOn = false;
-                })(KASELF);
+                })(KaTpl.self);
             </script>
 
             <p [classlist.text-success]="isOn">Hello world!</p>

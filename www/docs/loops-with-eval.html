@@ -19,7 +19,7 @@
                     };
                     self.$scope.names = ['alfred', 'werner'];
 
-                })(KASELF);
+                })(KaTpl.self);
             </script>
             <tr *for="let idx in names" *foreval="$scope.data = $scope.customFn(idx)">
                 <td >Row {{ idx }}: {{ names[idx] }} {{ data }}</td>
