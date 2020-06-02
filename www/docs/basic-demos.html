@@ -12,7 +12,7 @@
     <h3>Render a table</h3>
     <div id="ex01" class="example">
         <template is="ka-tpl" id="tpl01" debug>
-            <table class="table table-bordered">
+            <table class="table table-bordered" *id="tbl1">
                 <tbody>
                     <tr *if="names.length === 0">
                         <td colspan="2">No data</td>
@@ -25,7 +25,7 @@
             </table>
         </template>
         <button class="btn btn-primary" onclick="ka_tpl('tpl01').$scope.names.push({})">Push</button>
-        <button class="btn btn-primary" onclick="ka_tpl('tpl01').$scope.names.pop()">Pop</button>
+        <button class="btn btn-primary" onclick="ka_tpl('tpl01').$scope.names.pop()" id="testpop">Pop</button>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 ka_tpl("tpl01").$scope = {

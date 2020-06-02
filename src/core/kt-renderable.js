@@ -70,6 +70,11 @@ class KtRenderable extends HTMLTemplateElement {
             $scope.$ref[node.getAttribute("*ref")] = node;
         }
 
+        // Register id of cloned node
+        if (node instanceof HTMLElement && node.hasAttribute("*id")) {
+            node.id = node.getAttribute("*id");
+        }
+
         if (typeof node.render === "function") {
             node.render($scope);
             return;
