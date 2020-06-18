@@ -10,7 +10,7 @@ class KtHelper {
      * @return {any}
      */
     keval(stmt, __scope, e, __refs) {
-        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false"];
+        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false", "await"];
         let r = "";
         for (let __name in __scope) {
             if (reserved.indexOf(__name) !== -1)
@@ -40,7 +40,7 @@ class KtHelper {
      *
      */
     scopeEval($scope, selector, elem) {
-        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false"];
+        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false", "await"];
         let r = "";
         for (let __name in $scope) {
             if (reserved.indexOf(__name) !== -1)
