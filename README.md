@@ -189,6 +189,24 @@ Defines a template.
 | `afterrender`     | Run code after the element was rendered |
 
 
+## The KaTemplate class
+
+### Wait for a Element to be rendered
+
+```
+<template is="ka-tpl" id="tpl01" debug="" auto="">
+    <script>
+        (async(self) =>  {
+            let input = await self.waitRef("input1");
+            // Now input1 is rendered
+            input.value = "Hello World!";
+        })(KaTpl.self);
+    </script>
+    <input type="text" *ref="input1">
+
+</template>
+```
+
 **Example**
 
 Print a value loaded 

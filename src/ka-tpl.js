@@ -18,6 +18,7 @@ class KaTpl extends KtRenderable {
         this._refs = {};
         this._scope = {"$ref":this._refs};
         this.__debounceTimeout = null;
+        this._handler = {};
     }
 
     /**
@@ -106,8 +107,10 @@ class KaTpl extends KtRenderable {
                 return true;
             },
             get: (target, key) => {
-                if (key === "$ref")
+                if (key === "$ref") {
+
                     return this._refs;
+                }
                 if (typeof target[key] === "object" && target[key] !== null)
                     return new Proxy(target[key], handler);
                 return target[key];
@@ -159,6 +162,44 @@ class KaTpl extends KtRenderable {
     }
 
 
+    /**
+     * Wait for a reference to be rendered
+     *
+     * Returns a promise that is resolved once the Referenced
+     * Element (containing *ref attribute) in template and all its
+     * child elements was rendered.
+     *
+     * If the element
+     *
+     * <example>
+     *     <script>
+     *          (async(self) =>  {
+
+                    let input = await self.waitRef("input1");
+                    console.log (input );
+                })(KaTpl.self);
+     *     </script>
+     *     let elem = await self.waitRef("input1")
+     * </example>
+     *
+     * @param name
+     * @return {Promise}
+     */
+    waitRef(name) {
+        if (typeof this.$scope.$ref[name] === "undefined") {
+            var resolver;
+            let p = new Promise(resolve => {
+                resolver = resolve
+            });
+            p.resolve = function (value) {
+                resolver(value);
+            }
+            this.$scope.$ref[name] = p;
+            return p;
+        }
+        // Return immediate if reference already existing
+        return Promise.resolve(this.$scope.$ref[name]);
+    }
 
     _init() {
         if (this._els !== null)
@@ -184,6 +225,8 @@ class KaTpl extends KtRenderable {
 
         this._isInitializing = false;
     }
+
+
 
     render($scope) {
         if (typeof $scope === "undefined")

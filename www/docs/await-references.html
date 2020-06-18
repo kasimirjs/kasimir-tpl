@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasimir Templates :: Template instanciation</title>
+    <link rel="stylesheet" href="/dist/docs.css">
+    <link rel="stylesheet" href="/dist/bootstrap.css">
+</head>
+<body class="container">
+
+    <h2>Basic demos</h2>
+    <h3>Render a table</h3>
+    <div id="ex01" class="example">
+        <template is="ka-tpl" id="tpl01" debug auto>
+            <script>
+                (async(self) =>  {
+                    let input = await self.waitRef("input1");
+                    // Now input1 is rendered
+                    input.value = "Hello World!";
+                })(KaTpl.self);
+            </script>
+            <input type="text" *ref="input1" >
+
+        </template>
+    </div>
+    <pre class="code"><ka-val stmt="document.getElementById('ex01').innerHTML" unindent auto afterrender="w3codecolor(this)"></ka-val></pre>
+
+
+
+    <script type="application/javascript" src="/dist/w3codecolor.js"></script>
+    <script type="application/javascript" src="/dist/kasimir-tpl.js"></script>
+</body>
+</html>

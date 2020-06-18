@@ -65,9 +65,13 @@ class KtRenderable extends HTMLTemplateElement {
         if (node.hasOwnProperty("_kaMb") && node._kaMb !== this._ktId)
             return;
 
+        let refPromise = null;
+
         // Register references
         if (node instanceof HTMLElement && node.hasAttribute("*ref")) {
-            $scope.$ref[node.getAttribute("*ref")] = node;
+            let refname = node.getAttribute("*ref");
+            refPromise = $scope.$ref[refname];
+            $scope.$ref[refname] = node;
         }
 
         // Register id of cloned node
@@ -84,6 +88,11 @@ class KtRenderable extends HTMLTemplateElement {
             if (node.ktSkipRender === true)
                 return;
             this.renderRecursive(curNode, $scope);
+        }
+
+        if (refPromise !== null && typeof refPromise.resolve === "function") {
+            // Resolve promise registered with waitRef()
+            refPromise.resolve(node);
         }
     }
 
