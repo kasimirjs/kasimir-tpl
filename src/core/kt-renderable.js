@@ -90,7 +90,7 @@ class KtRenderable extends HTMLTemplateElement {
             this.renderRecursive(curNode, $scope);
         }
 
-        if (refPromise !== null && typeof refPromise.resolve === "function") {
+        if (refPromise !== null && typeof refPromise !== "undefined" && typeof refPromise.resolve === "function") {
             // Resolve promise registered with waitRef()
             refPromise.resolve(node);
         }
