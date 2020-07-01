@@ -154,6 +154,7 @@ class KaTpl extends KtRenderable {
      * Execute custom function on event
      *
      * @return {{
+     *      onBeforeRender: (function($scope): void),
      *      onAfterRender: (function($scope): void),
      *      onAfterFirstRender: (function($scope): void)
      *      onBeforeDisconnect: (function($scope): void)
@@ -281,6 +282,10 @@ class KaTpl extends KtRenderable {
         this._log("render($scope= ", $scope, ")");
         let isFirstRender = this._init();
         this._isRendering = true;
+
+        // Important: run after _isRendering is true -> skip recursion
+        this._runTriggerFunction(this.$on.onBeforeRender);
+
         for(let ce of this._els) {
             this.renderRecursive(ce, $scope);
         }
