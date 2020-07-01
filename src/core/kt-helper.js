@@ -10,8 +10,8 @@ class KtHelper {
      * @return {any}
      */
     keval(stmt, __scope, e, __refs) {
-        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false", "await"];
-        let r = "";
+        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false", "await", "$this"];
+        let r = "var $this = e;";
         for (let __name in __scope) {
             if (reserved.indexOf(__name) !== -1)
                 continue;
@@ -40,8 +40,8 @@ class KtHelper {
      *
      */
     scopeEval($scope, selector, elem) {
-        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false", "await"];
-        let r = "";
+        const reserved = ["var", "null", "let", "const", "function", "class", "in", "of", "for", "true", "false", "await", "$this"];
+        let r = "var $this = elem;";
         for (let __name in $scope) {
             if (reserved.indexOf(__name) !== -1)
                 continue;
@@ -72,6 +72,4 @@ class KtHelper {
         str = str.trim();
         return str;
     }
-
-
 }

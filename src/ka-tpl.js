@@ -273,7 +273,7 @@ class KaTpl extends KtRenderable {
      *
      *
      *
-     * @param $scope {{*}|}
+     * @param $scope {{}|null}
      */
     render($scope) {
         if (typeof $scope === "undefined")

@@ -25,7 +25,7 @@ var KT_FN = {
         "use strict";
 
         let kthelper = new KtHelper();
-        let classes = kthelper.scopeEval(scope, val);
+        let classes = kthelper.scopeEval(scope, val, elem);
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
                 continue;
@@ -47,7 +47,7 @@ var KT_FN = {
         "use strict";
 
         let kthelper = new KtHelper();
-        let styles = kthelper.scopeEval(scope, val);
+        let styles = kthelper.scopeEval(scope, val, elem);
         for (let styleName in styles) {
             if ( ! styles.hasOwnProperty(styleName))
                 continue;
@@ -61,7 +61,7 @@ var KT_FN = {
 
     "kt-attrs": function (elem, val, scope) {
         let kthelper = new KtHelper();
-        let classes = kthelper.scopeEval(scope, val);
+        let classes = kthelper.scopeEval(scope, val, elem);
         for (let className in classes) {
             if ( ! classes.hasOwnProperty(className))
                 continue;
