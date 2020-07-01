@@ -262,13 +262,19 @@ class KaTpl extends KtRenderable {
         return true;
     }
 
-
     _runTriggerFunction(fn) {
         if (typeof fn === "function")
-            fn($scope, this);
+            fn(this.$scope, this);
     }
 
 
+    /**
+     * Implicit render the template
+     *
+     *
+     *
+     * @param $scope {{*}|}
+     */
     render($scope) {
         if (typeof $scope === "undefined")
             $scope = this.$scope;
