@@ -1,4 +1,4 @@
 /.idea
 /.vscode
 /node_modules
-/www/dist/*.js
+/www/dist/kasimir-tpl.js
