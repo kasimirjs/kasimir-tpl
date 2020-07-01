@@ -14,14 +14,10 @@
         <template is="ka-tpl" id="tpl01" debug auto>
             <script>
                 ((self)=>{
-                    let $scope = self.scopeInit({
-                        name: null,
-                        $fn: {
-                            sayHello: (name) => {
-                                $scope.name = name;
-                            }
-                        }
-                    })
+                    let $scope = self.scopeInit({name: null})
+                    $scope.$fn.sayHello = (name) => {
+                        $scope.name = name;
+                    }
                 })(KaTpl.self);
             </script>
             <p>{{ name }}</p>

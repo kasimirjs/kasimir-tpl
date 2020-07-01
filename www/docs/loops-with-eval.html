@@ -15,13 +15,13 @@
             <script>
                 ((self) => {
                     let $scope = self.scopeInit({
-                        names: ['alfred', 'werner'],
-                        $fn: {
-                            customFn: (input) => {
-                                return "output from customFn(" + input + ")";
-                            }
-                        }
-                    })
+                        names: ['alfred', 'werner']
+                    });
+
+                    $scope.$fn.customFn = (input) => {
+                        return "output from customFn(" + input + ")";
+                    }
+
 
                 })(KaTpl.self);
             </script>

@@ -15,8 +15,13 @@ class KaTpl extends KtRenderable {
         // Switched to to during _init() to allow <script> to set scope without rendering.
         this._isInitializing = false;
         this._isRendering = false;
+
+        // Store ref/on/fn outside to allow setting $scope without overwriting them
         this._refs = {};
-        this._scope = {"$ref":this._refs};
+        this._on = {};
+        this._fn = {};
+        this._scope = {"$ref":this._refs, "$on": this._on, "$fn": this._fn};
+
         this.__debounceTimeout = null;
         this._handler = {};
     }
@@ -37,6 +42,7 @@ class KaTpl extends KtRenderable {
 
 
     disconnectedCallback() {
+        this._runTriggerFunction(this.$on.onBeforeDisconnect);
         for (let el of this._els)
             this.parentElement.removeChild(el);
     }
@@ -76,7 +82,11 @@ class KaTpl extends KtRenderable {
      */
     set $scope(val) {
         this._scope = val;
+
+        // Set immutable data
         this._scope.$ref = this._refs;
+        this._scope.$on = this._on;
+        this._scope.$fn = this._fn;
 
         // Render only if dom available (allow <script> inside template to set scope before first rendering
         if ( ! this._isInitializing)
@@ -107,10 +117,16 @@ class KaTpl extends KtRenderable {
                 return true;
             },
             get: (target, key) => {
-                if (key === "$ref") {
-
-                    return this._refs;
+                // Return direct link to immutable data
+                switch (key) {
+                    case "$ref":
+                        return this._refs;
+                    case "$on":
+                        return this._on;
+                    case "$fn":
+                        return this._fn;
                 }
+
                 if (typeof target[key] === "object" && target[key] !== null)
                     return new Proxy(target[key], handler);
                 return target[key];
@@ -133,6 +149,21 @@ class KaTpl extends KtRenderable {
         return this.$scope.$fn;
     }
 
+
+    /**
+     * Execute custom function on event
+     *
+     * @return {{
+     *      onAfterRender: (function($scope): void),
+     *      onAfterFirstRender: (function($scope): void)
+     *      onBeforeDisconnect: (function($scope): void)
+     *      }}
+     */
+    get $on () {
+        return this.$scope.$on;
+    }
+
+
     /**
      * Initialize the scope. Will return the proxied scope object.
      *
@@ -142,22 +173,20 @@ class KaTpl extends KtRenderable {
      * So you can use the return value within the scope definition itself.
      *
      * <example>
-     * let $scope = KaTpl.self.scopeInit({
-     *     someData: [],
-     *
-     *     $fn: {
-     *         update: () => {
-     *             $scope.someData.push("Item")
-     *         }
-     *     }
-     * });
+     * let $scope = KaTpl.self.scopeInit({someData: []});
      * </example>
      *
-     * @param {{$fn:{}}} $scope
+     * @param {{$fn:{}, $on:{}}} $scope
      * @return {Proxy<{}>}
      */
     scopeInit($scope) {
+        if (typeof $scope.$fn !== "undefined")
+            this._fn = $scope.$fn;
+        if (typeof $scope.$on !== "undefined")
+            this._on = $scope.$on;
+
         this.$scope = $scope;
+
         return this.$scope; // <- Query scope over getter to receive proxy
     }
 
@@ -193,7 +222,7 @@ class KaTpl extends KtRenderable {
             });
             p.resolve = function (value) {
                 resolver(value);
-            }
+            };
             this.$scope.$ref[name] = p;
             return p;
         }
@@ -201,9 +230,15 @@ class KaTpl extends KtRenderable {
         return Promise.resolve(this.$scope.$ref[name]);
     }
 
+    /**
+     * Verify if this is the first render attempt
+     *
+     * @return {boolean} True if first render
+     * @private
+     */
     _init() {
         if (this._els !== null)
-            return;
+            return false;
         this._isInitializing = true;
         if (this.nextElementSibling !== null) {
             // Remove loader element
@@ -224,19 +259,31 @@ class KaTpl extends KtRenderable {
         }
 
         this._isInitializing = false;
+        return true;
     }
 
+
+    _runTriggerFunction(fn) {
+        if (typeof fn === "function")
+            fn($scope, this);
+    }
 
 
     render($scope) {
         if (typeof $scope === "undefined")
             $scope = this.$scope;
         this._log("render($scope= ", $scope, ")");
-        this._init();
+        let isFirstRender = this._init();
         this._isRendering = true;
         for(let ce of this._els) {
             this.renderRecursive(ce, $scope);
         }
+
+        // Execute $on callbacks
+        if (isFirstRender) {
+            this._runTriggerFunction(this.$on.onAfterFirstRender)
+        }
+        this._runTriggerFunction(this.$on.onAfterRender);
         this._isRendering = false;
     }
 }
