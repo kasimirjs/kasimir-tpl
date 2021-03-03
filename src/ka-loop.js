@@ -59,7 +59,7 @@ class KaLoop extends KtRenderable {
         if (this._attrs.formode !== "repeat") {
 
             if (typeof sel !== "object") {
-                console.warn(`Invalid forSelect="${_a_sel}" returned:`, sel, "on context", context, "(Element: ", this, ")");
+                console.warn(`Invalid forSelect="${_a_sel}" returned:`, sel, "(Element: ", this, ")");
                 throw "Invalid forSelect selector. see waring."
             }
 
